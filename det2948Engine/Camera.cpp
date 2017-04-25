@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Engine.h"
 #include <FreeImage.h>
 
 #include <GL\glew.h>	// The order
@@ -7,14 +8,13 @@
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>
-#include "EngineO.h"
 
 using namespace glm;
 
 Camera::Camera() {
 
 	//Set cursor to center of window
-	glfwSetCursorPos(EngineO::windowPtr, EngineO::screenWidth*0.5f, EngineO::screenHeight*0.5f);
+	glfwSetCursorPos(Engine::windowSys.window, Engine::windowSys.screenWidth*0.5f, Engine::windowSys.screenHeight*0.5f);
 }
 
 void Camera::Update() {

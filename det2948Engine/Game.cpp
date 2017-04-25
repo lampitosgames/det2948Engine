@@ -27,6 +27,5 @@ int main() {
 	//Loop until the user closes the window
 	Engine::GameLoop();
 
-	//EngineO::Stop();
 	return 0;
 }
