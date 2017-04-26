@@ -5,12 +5,13 @@
 #include "System.h"
 #include "GameObject.h"
 #include "Message.h"
+#include <glm\glm.hpp>
 
 using namespace std;
+enum objTypes { GAME_OBJECT_OBJ, CAMERA_OBJ };
 
 class ObjectFactory : public System {
 private:
-	enum objTypes {gameObject = 0};
 	HandleManager objectManager;
 
 	Handle testObj1;
@@ -22,9 +23,15 @@ public:
 	bool Start();
 	void Update(float dt);
 
-	Handle CreateGameObject(string tag);
-	//Add a default component to an object.  Returns false if it fails, or if the object already has a component of that type
-	bool AddComponent(Handle objHandle, compType type);
-
+	Handle CreateGameObject(objTypes type, string tag);
 	bool DeleteGameObject(Handle objHandle);
+
+	//template<typename T>
+	//T Get(Handle h);
+	void* Get(Handle h);
+
+	//Create and add a transform component to the object
+	//bool GiveTransform(Handle objHandle, vec3 position = vec3(0.0f, 0.0f, 0.0f), vec3 rotation = vec3(0.0f, 0.0f, 0.0f), vec3 scale = vec3(0.0f, 0.0f, 0.0f));
+	//bool GiveMeshRenderer(Handle objHandle, Handle meshHandle);
+	//bool GiveMaterial(Handle objHandle, Handle matHandle);
 };

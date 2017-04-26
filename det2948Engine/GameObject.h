@@ -16,11 +16,9 @@ public:
 	GameObject();
 	virtual ~GameObject();
 
-	Component* GetComponent(compType);
-	void AddComponent(Component* comp);
-	bool HasComponent(compType);
+	Handle GetComponent(compType type);
+	bool HasComponent(compType type);
 
 	virtual void Start();
 	virtual void Update();
-	void Render();
 };

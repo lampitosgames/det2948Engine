@@ -1,9 +1,8 @@
 #include "ObjectFactory.h"
 #include "Engine.h"
+#include "Component.h"
 
 bool ObjectFactory::Start() {
-	testObj2 = CreateGameObject("testObject2");
-	testObj1 = CreateGameObject("testObject1");
 	return true;
 }
 
@@ -13,43 +12,50 @@ void ObjectFactory::Update(float dt) {
 	}
 }
 
-Handle ObjectFactory::CreateGameObject(string tag) {
+//template<typename T>
+//T ObjectFactory::Get(Handle h) {
+//	switch (h.type) {
+//	case compType::GAME_OBJECT:
+//		GameObject* returnObj;
+//		if (objectManager.Get<GameObject*>(h, returnObj)) {
+//			return returnObj;
+//		}
+//		break;
+//	case compType::TRANSFORM:
+//		break;
+//	}
+//	return nullptr;
+//}
+
+void* ObjectFactory::Get(Handle h) {
+	return objectManager.Get(h);
+}
+
+Handle ObjectFactory::CreateGameObject(objTypes type, string tag) {
 	//Create the game object
-	gameObjects.push_back(GameObject());
+	switch (type) {
+	case GAME_OBJECT_OBJ:
+		gameObjects.push_back(GameObject());
+		break;
+	case CAMERA_OBJ:
+		gameObjects.push_back(Camera());
+		break;
+	default:
+		return Handle();
+	}
 	//Get a handle for it
-	Handle objectHandle = objectManager.Add(&(gameObjects[gameObjects.size() - 1]), gameObject);
+	Handle objectHandle = objectManager.Add(&(gameObjects[gameObjects.size() - 1]), compType::GAME_OBJECT);
 	//Pass it's own handle and the object tag to the game object
-	GameObject* object;
-	objectManager.Get(objectHandle, object);
-	(*object).handle = objectHandle;
-	(*object).tag = tag;
+	GameObject* objectPtr;
+	objectPtr = (GameObject*)Get(objectHandle);
+	(*objectPtr).handle = objectHandle;
+	(*objectPtr).tag = tag;
 	return objectHandle;
 }
 
-bool ObjectFactory::AddComponent(Handle objHandle, compType type) {
-	//Handle compHandle;
-	////Get the game object we're adding to
-	//GameObject* object;
-	//if (!objectManager.Get(objHandle, object)) {
-	//	return false;
-	//}
 
-	//switch (type) {
-	//case Transform:
-	//	compHandle = Engine::renderSys.NewTransformComp();
-	//	break;
-	//case MeshRenderer:
-	//	compHandle = Engine::renderSys.NewMeshRendererComp();
-	//	break;
-	//case Material:
-	//	break;
-	//default:
-	//	cout << "\nInvalid comp type when trying to add component to gameobject with tag: " << (*object).tag;
-	//	return false;
-	//}
-	return false;
-}
 
 bool ObjectFactory::DeleteGameObject(Handle objHandle) {
 	return false;
 }
+

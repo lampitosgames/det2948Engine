@@ -3,9 +3,16 @@
 #include "HandledObject.h"
 
 enum compType {
-	Transform = 0,
-	MeshRenderer = 1,
-	Material = 2
+	//Non-component
+	GAME_OBJECT = 0,
+	//Components
+	TRANSFORM = 1,
+	MESH_RENDERER = 2,
+	MATERIAL = 3,
+	//Resources
+	MESH = 4,
+	SHADER = 5,
+	TEXTURE = 6
 };
 const int numCompTypes = 3;
 

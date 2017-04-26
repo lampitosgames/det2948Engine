@@ -8,17 +8,13 @@ GameObject::GameObject() {
 GameObject::~GameObject() {
 }
 
-Component * GameObject::GetComponent(compType id) {
-	return nullptr;
+Handle GameObject::GetComponent(compType id) {
+	return Handle();
 }
 
 void GameObject::Start() {
 }
 
 void GameObject::Update() {
-	cout << "\nUpdating " << this->tag;
-}
-
-void GameObject::Render() {
-	cout << "\nRendering" << this->tag;
+	//cout << "\nUpdating " << this->tag;
 }

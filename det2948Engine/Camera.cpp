@@ -17,6 +17,9 @@ Camera::Camera() {
 	glfwSetCursorPos(Engine::windowSys.window, Engine::windowSys.screenWidth*0.5f, Engine::windowSys.screenHeight*0.5f);
 }
 
+void Camera::Start() {
+}
+
 void Camera::Update() {
 	this->loc += this->vel;
 	this->vel = vec3(0, 0, 0);

@@ -1,4 +1,5 @@
 #pragma once
+#include "HandledObject.h"
 #include <iostream>
 #include <FreeImage.h>
 
@@ -24,7 +25,7 @@ struct VertInd {
 	unsigned int normInd;
 };
 
-class Mesh {
+class Mesh : public HandledObject {
 private:
 	GLuint VBO;
 	GLuint VAO;

@@ -1,4 +1,5 @@
 #pragma once
+#include "HandledObject.h"
 #include <string>
 #include <FreeImage.h>
 
@@ -11,12 +12,12 @@
 
 using namespace std;
 
-class Texture {
+class Texture : public HandledObject {
 public:
-	char* filepath = "images/testTexture.png";
+	char* filepath;
 	GLuint texID;
 
-	Texture();
+	Texture(char* inFilepath);
 	~Texture();
 	bool Load();
 	void use();

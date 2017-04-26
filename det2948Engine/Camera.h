@@ -1,4 +1,5 @@
 #pragma once
+#include "GameObject.h"
 #include <FreeImage.h>
 
 #include <GL\glew.h>	// The order
@@ -8,7 +9,7 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>
 
-class Camera {
+class Camera : public GameObject {
 public:
 	//Perspective
 	float fov = .4 * 3.14;
@@ -27,5 +28,6 @@ public:
 	glm::mat4 camMatrix;
 
 	Camera();
-	void Update();
+	void Start() override;
+	void Update() override;
 };

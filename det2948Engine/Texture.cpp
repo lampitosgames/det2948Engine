@@ -8,7 +8,8 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>
 
-Texture::Texture() {
+Texture::Texture(char* inFilepath) {
+	filepath = inFilepath;
 }
 
 Texture::~Texture() {

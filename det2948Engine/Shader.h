@@ -1,4 +1,5 @@
 #pragma once
+#include "HandledObject.h"
 #include <iostream>
 #include <FreeImage.h>
 
@@ -11,7 +12,7 @@
 
 using namespace std;
 
-class Shader {
+class Shader : public HandledObject {
 private:
 	GLuint program, vprogram, fprogram;
 	string filenamev;

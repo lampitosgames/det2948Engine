@@ -89,10 +89,11 @@ void Engine::GameLoop() {
 }
 
 void Engine::HandleCameraInput() {
+	Camera* curCamera = &Engine::renderSys.camera;
 	//Camera location vector
-	glm::vec3* cl = &Engine::renderSys.camera.loc;
+	glm::vec3* cl = &((*curCamera).loc);
 	//Camera rotation vector
-	glm::vec3* cr = &Engine::renderSys.camera.rot;
+	glm::vec3* cr = &((*curCamera).rot);
 
 	glm::mat3 R = (glm::mat3)glm::yawPitchRoll((*cr).y, (*cr).x, (*cr).z);
 
@@ -113,7 +114,7 @@ void Engine::HandleCameraInput() {
 	glfwSetCursorPos(Engine::windowSys.window, w*0.5f, h*0.5f);
 
 	//Keyboard input
-	glm::vec3 vel = Engine::renderSys.camera.vel;
+	glm::vec3 vel = (*curCamera).vel;
 
 	if (glfwGetKey(Engine::windowSys.window, GLFW_KEY_D)) {
 		vel += R * glm::vec3(1, 0, 0);
@@ -136,7 +137,7 @@ void Engine::HandleCameraInput() {
 
 	float speed = 4.0f;
 	if (vel != glm::vec3()) {
-		Engine::renderSys.camera.vel = glm::normalize(vel) * speed * Engine::time.dt;
+		(*curCamera).vel = glm::normalize(vel) * speed * Engine::time.dt;
 	}
 }
 
