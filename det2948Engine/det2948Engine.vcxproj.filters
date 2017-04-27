@@ -143,6 +143,9 @@
     <ClInclude Include="Material.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="pType.h">
+      <Filter>Header Files\Handles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\fShader.glsl" />

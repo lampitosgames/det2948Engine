@@ -16,7 +16,7 @@ public:
 
 	static Window windowSys;
 	static Render renderSys;
-	static ObjectFactory objFactorySys;
+	static ObjectFactory OF;
 
 	static bool Start();
 

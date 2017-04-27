@@ -1,4 +1,6 @@
 #include "Render.h"
+#include "pType.h"
+#include "Camera.h"
 #include "Engine.h"
 #include <glm\glm.hpp>
 #include <iostream>
@@ -7,69 +9,93 @@ Render::Render() {
 }
 
 bool Render::Start() {
-	defaultShader = CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
-	defaultTexture = CreateTexture("images/newTexture.png");
+	Handle defaultShader = CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
+	Handle defaultTexture = CreateTexture("images/debugTexture.png");
+	defaultMaterial = CreateMaterial(defaultTexture, defaultShader);
 	testMesh = CreateMesh("models/sphere.obj");
-
-	tempTex.Load();
-
-	camera = Camera();
 
 	glEnable(GL_DEPTH_TEST);
 	return true;
 }
 
 void Render::Update(float dt) {
-	Shader* curShader = (Shader*)Get(defaultShader);
-	Texture* curTexture = (Texture*)Get(defaultTexture);
-	Mesh* curMesh = (Mesh*)Get(testMesh);
+	Camera* camPtr = Get<Camera*>(curCamera);
+	Material* curMat = Get<Material*>(defaultMaterial);
+	Mesh* curMesh = Get<Mesh*>(testMesh);
 
-	(*curShader).use();
+	curMat->GetShader()->use();
 
-	camera.Update();
-	(*curShader).applyMatrix(&camera.camMatrix, glm::vec3(1.2f, 1.0f, 2.0f), camera.loc);
+	camPtr->Update();
+	curMat->GetShader()->applyMatrix(&camPtr->camMatrix, glm::vec3(1.2f, 1.0f, 2.0f), camPtr->loc);
 
-	(*curTexture).use();
+	curMat->GetTexture()->use();
 
 	//Render
-	(*curMesh).Render();
+	curMesh->Render();
 }
 
+void* Render::Get(Handle h) {
+	return Engine::OF.Get(h);
+}
+
+Handle Render::Add(void* pointer, pType type) {
+	return Engine::OF.Add(pointer, type);
+}
+
+/*
+
+COMPONENTS
+
+*/
+Handle Render::CreateMaterial(Handle mTexture, Handle mShader) {
+	materials.push_back(Material(mTexture, mShader));
+	Handle matHandle = Add(&materials[materials.size() - 1], pType::MATERIAL);
+	materials[materials.size() - 1].handle = matHandle;
+	return matHandle;
+}
+
+/*
+
+CREATE RESOURCES
+
+*/
 Handle Render::CreateTexture(char * filepath) {
-	Texture newTexture = Texture(filepath);
-	if (!newTexture.Load()) {
-		cout << "\nTexture failed to load";
-		return Handle();
+	textures.push_back(Texture(filepath));
+	if (textures[textures.size()-1].Load()) {
+		Handle texHandle = Add(&textures[textures.size() - 1], pType::TEXTURE);
+		textures[textures.size() - 1].handle = texHandle;
+		return texHandle;
 	}
-	textures.push_back(newTexture);
-	return resourceManager.Add(&textures[textures.size() - 1], compType::TEXTURE);
+	cout << "\nTexture failed to load";
+	textures.erase(textures.end() - 1);
+	return Handle();
 }
 
 Handle Render::CreateShader(char * vShaderPath, char * fShaderPath) {
-	Shader newShader = Shader(vShaderPath, fShaderPath);
-	if (newShader.load()) {
+	shaders.push_back(Shader(vShaderPath, fShaderPath));
+	if (shaders[shaders.size()-1].load()) {
 		//TODO: Delete this and add lighting support
-		newShader.lightLoc = glm::vec3(1.2f, 1.0f, 2.0f);
-	} else {
-		cout << "\nShader failed to load\n";
-		return Handle();
+		shaders[shaders.size() - 1].lightLoc = glm::vec3(1.2f, 1.0f, 2.0f);
+		Handle sdrHandle = Add(&shaders[shaders.size() - 1], pType::SHADER);
+		shaders[shaders.size() - 1].handle = sdrHandle;
+		return sdrHandle;
 	}
-
-	shaders.push_back(newShader);
-	return resourceManager.Add(&shaders[shaders.size() - 1], compType::SHADER);
+	cout << "\nShader failed to load\n";
+	shaders.erase(shaders.end() - 1);
+	return Handle();
 }
 
 Handle Render::CreateMesh(string filepath) {
-	Mesh newMesh = Mesh();
-	if (!newMesh.bufferModel(filepath)) {
-		cout << "\nFailed to load model";
-		return Handle();
+	meshes.push_back(Mesh());
+	if (meshes[meshes.size()-1].bufferModel(filepath)) {
+		Handle mesHandle = Add(&meshes[meshes.size() - 1], pType::MESH);
+		meshes[meshes.size() - 1].handle = mesHandle;
+		return mesHandle;
 	}
-
-	meshes.push_back(newMesh);
-	return resourceManager.Add(&meshes[meshes.size() - 1], compType::MESH);
+	cout << "\nFailed to load model";
+	return Handle();
 }
 
 Render::~Render() {
-	(*(Shader*)Get(defaultShader)).unload();
+	Get<Material*>(defaultMaterial)->GetShader()->unload();
 }

@@ -1,37 +1,51 @@
 #pragma once
 #include <vector>
+#include "pType.h"
+#include "GameObject.h"
 #include "HandleManager.h"
 #include "Handle.h"
 #include "System.h"
-#include "GameObject.h"
 #include "Message.h"
 #include <glm\glm.hpp>
 
 using namespace std;
-enum objTypes { GAME_OBJECT_OBJ, CAMERA_OBJ };
 
 class ObjectFactory : public System {
 private:
-	HandleManager objectManager;
+	HandleManager resourceManager;
 
 	Handle testObj1;
 	Handle testObj2;
 
 public:
-	vector<GameObject> gameObjects;
+	vector<GameObject*> gameObjects;
+
+	ObjectFactory();
+	~ObjectFactory();
 
 	bool Start();
 	void Update(float dt);
 
-	Handle CreateGameObject(objTypes type, string tag);
+	template<typename T> Handle CreateGameObject(string tag);
 	bool DeleteGameObject(Handle objHandle);
 
-	//template<typename T>
-	//T Get(Handle h);
 	void* Get(Handle h);
+	template<typename T> T Get(Handle h);
+
+	Handle Add(void* pointer, pType type);
 
 	//Create and add a transform component to the object
 	//bool GiveTransform(Handle objHandle, vec3 position = vec3(0.0f, 0.0f, 0.0f), vec3 rotation = vec3(0.0f, 0.0f, 0.0f), vec3 scale = vec3(0.0f, 0.0f, 0.0f));
 	//bool GiveMeshRenderer(Handle objHandle, Handle meshHandle);
 	//bool GiveMaterial(Handle objHandle, Handle matHandle);
 };
+
+template<typename T>
+inline T ObjectFactory::Get(Handle h) {
+	T returnPointer;
+	if (resourceManager.Get<T>(h, returnPointer)) {
+		return returnPointer;
+	}
+	cout << "\Invalid handle, pointer not found";
+	return nullptr;
+}

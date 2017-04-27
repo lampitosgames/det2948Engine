@@ -1,5 +1,7 @@
 #pragma once
 #include "Component.h"
+#include "Texture.h"
+#include "Shader.h"
 #include "Handle.h"
 
 class Material : public Component {
@@ -11,4 +13,10 @@ public:
 	Handle shader;
 
 	Material(Handle texHandle, Handle shaderHandle);
+
+	bool Start();
+	void Update();
+
+	Texture* GetTexture();
+	Shader* GetShader();
 };

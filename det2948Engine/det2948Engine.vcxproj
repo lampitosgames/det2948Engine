@@ -148,6 +148,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ObjectFactory.h" />
+    <ClInclude Include="pType.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="System.h" />

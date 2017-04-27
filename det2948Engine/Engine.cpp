@@ -37,7 +37,7 @@ namespace {
 Timer Engine::time = Timer();
 Render Engine::renderSys = Render();
 Window Engine::windowSys = Window();
-ObjectFactory Engine::objFactorySys = ObjectFactory();
+ObjectFactory Engine::OF = ObjectFactory();
 
 bool Engine::Start() {
 	if (!Engine::windowSys.Start()) {
@@ -56,7 +56,7 @@ bool Engine::Start() {
 		return false;
 	}
 
-	if (!Engine::objFactorySys.Start()) {
+	if (!Engine::OF.Start()) {
 		cout << "\Object Factory failled to start";
 		return false;
 	}
@@ -71,7 +71,7 @@ void Engine::Update(float dt) {
 	//Update systems
 	Engine::windowSys.Update(dt);
 	Engine::renderSys.Update(dt);
-	Engine::objFactorySys.Update(dt);
+	Engine::OF.Update(dt);
 
 	//TEMP : Handle inputs
 	Engine::HandleCameraInput();
@@ -89,7 +89,7 @@ void Engine::GameLoop() {
 }
 
 void Engine::HandleCameraInput() {
-	Camera* curCamera = &Engine::renderSys.camera;
+	Camera* curCamera = Engine::OF.Get<Camera*>(Engine::renderSys.curCamera);
 	//Camera location vector
 	glm::vec3* cl = &((*curCamera).loc);
 	//Camera rotation vector

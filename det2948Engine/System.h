@@ -1,5 +1,4 @@
 #pragma once
-#include "Message.h"
 
 class System {
 public:

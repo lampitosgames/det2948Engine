@@ -8,7 +8,7 @@ GameObject::GameObject() {
 GameObject::~GameObject() {
 }
 
-Handle GameObject::GetComponent(compType id) {
+Handle GameObject::GetComponent(pType id) {
 	return Handle();
 }
 
@@ -16,5 +16,5 @@ void GameObject::Start() {
 }
 
 void GameObject::Update() {
-	//cout << "\nUpdating " << this->tag;
+
 }

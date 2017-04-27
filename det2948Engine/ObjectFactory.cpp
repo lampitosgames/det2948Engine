@@ -2,54 +2,45 @@
 #include "Engine.h"
 #include "Component.h"
 
+ObjectFactory::ObjectFactory() {
+}
+
+ObjectFactory::~ObjectFactory() {
+	for (int i = 0; i < gameObjects.size(); i++) {
+		delete gameObjects[i];
+	}
+}
+
 bool ObjectFactory::Start() {
+	testObj1 = CreateGameObject<GameObject>("object1");
+	Engine::renderSys.curCamera = Engine::OF.CreateGameObject<Camera>("MainCamera");
 	return true;
 }
 
 void ObjectFactory::Update(float dt) {
 	for (int i = 0; i < gameObjects.size(); i++) {
-		gameObjects[i].Update();
+		gameObjects[i]->Update();
 	}
 }
-
-//template<typename T>
-//T ObjectFactory::Get(Handle h) {
-//	switch (h.type) {
-//	case compType::GAME_OBJECT:
-//		GameObject* returnObj;
-//		if (objectManager.Get<GameObject*>(h, returnObj)) {
-//			return returnObj;
-//		}
-//		break;
-//	case compType::TRANSFORM:
-//		break;
-//	}
-//	return nullptr;
-//}
 
 void* ObjectFactory::Get(Handle h) {
-	return objectManager.Get(h);
+	return resourceManager.Get(h);
 }
 
-Handle ObjectFactory::CreateGameObject(objTypes type, string tag) {
+Handle ObjectFactory::Add(void* pointer, pType type) {
+	return resourceManager.Add(pointer, type);
+}
+
+template<typename T>
+Handle ObjectFactory::CreateGameObject(string tag) {
+	T* object = new T();
 	//Create the game object
-	switch (type) {
-	case GAME_OBJECT_OBJ:
-		gameObjects.push_back(GameObject());
-		break;
-	case CAMERA_OBJ:
-		gameObjects.push_back(Camera());
-		break;
-	default:
-		return Handle();
-	}
+	gameObjects.push_back(object);
 	//Get a handle for it
-	Handle objectHandle = objectManager.Add(&(gameObjects[gameObjects.size() - 1]), compType::GAME_OBJECT);
+	Handle objectHandle = Add(object, pType::GAME_OBJECT);
 	//Pass it's own handle and the object tag to the game object
-	GameObject* objectPtr;
-	objectPtr = (GameObject*)Get(objectHandle);
-	(*objectPtr).handle = objectHandle;
-	(*objectPtr).tag = tag;
+	object->handle = objectHandle;
+	object->tag = tag;
 	return objectHandle;
 }
 
