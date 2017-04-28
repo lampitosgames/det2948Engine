@@ -5,17 +5,20 @@
 #include "HandleManager.h"
 #include "Handle.h"
 #include "System.h"
-#include "Message.h"
 #include <glm\glm.hpp>
 
 using namespace std;
+using namespace glm;
 
 class ObjectFactory : public System {
 private:
 	HandleManager resourceManager;
 
-	Handle testObj1;
-	Handle testObj2;
+	//Debug test objects
+	Handle sphereMesh;
+	Handle cubeMesh;
+	Handle cubeObj;
+	Handle sphereObj;
 
 public:
 	vector<GameObject*> gameObjects;
@@ -35,8 +38,8 @@ public:
 	Handle Add(void* pointer, pType type);
 
 	//Create and add a transform component to the object
-	//bool GiveTransform(Handle objHandle, vec3 position = vec3(0.0f, 0.0f, 0.0f), vec3 rotation = vec3(0.0f, 0.0f, 0.0f), vec3 scale = vec3(0.0f, 0.0f, 0.0f));
-	//bool GiveMeshRenderer(Handle objHandle, Handle meshHandle);
+	bool GiveTransform(Handle objHandle, vec3 position, vec3 rotation, vec3 scale);
+	bool GiveMeshRenderer(Handle objHandle, Handle meshHandle);
 	//bool GiveMaterial(Handle objHandle, Handle matHandle);
 };
 
@@ -46,6 +49,6 @@ inline T ObjectFactory::Get(Handle h) {
 	if (resourceManager.Get<T>(h, returnPointer)) {
 		return returnPointer;
 	}
-	cout << "\Invalid handle, pointer not found";
+	cout << "\nInvalid handle, pointer not found";
 	return nullptr;
 }

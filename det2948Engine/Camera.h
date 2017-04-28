@@ -28,6 +28,6 @@ public:
 	glm::mat4 camMatrix;
 
 	Camera();
-	void Start() override;
-	void Update() override;
+	void Start();
+	void Update();
 };

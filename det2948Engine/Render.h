@@ -6,15 +6,15 @@
 #include "Camera.h"
 #include "Texture.h"
 #include "Material.h"
+#include "MeshRender.h"
 #include "HandleManager.h"
 #include <vector>
 
 class Render : public System {
 public:
 	//Components
-	vector<Component> meshRenderers;
+	vector<MeshRender> meshRenders;
 	vector<Material> materials;
-	vector<Component> transforms;
 	//Resources
 	vector<Texture> textures;
 	vector<Mesh> meshes;
@@ -41,6 +41,7 @@ public:
 	
 	*/
 	Handle CreateMaterial(Handle mTexture, Handle mShader);
+	Handle CreateMeshRender(Handle meshHandle);
 
 	/*
 	
@@ -53,8 +54,3 @@ public:
 
 	~Render();
 };
-
-template<typename T>
-inline T Render::Get(Handle h) {
-	return Engine::OF.Get<T>(h);
-}

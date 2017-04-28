@@ -9,9 +9,10 @@ out vec3 outPos;
 out vec2 blendedUV;
 
 uniform mat4 camMatrix;
+uniform mat4 modelMatrix;
 
 void main() {
-	gl_Position = camMatrix * vec4(position, 1);
+	gl_Position = camMatrix * modelMatrix * vec4(position, 1);
 	outNormal = normal;
 	outPos = position;
 	blendedUV = uv;

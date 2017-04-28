@@ -12,26 +12,59 @@ bool Render::Start() {
 	Handle defaultShader = CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
 	Handle defaultTexture = CreateTexture("images/debugTexture.png");
 	defaultMaterial = CreateMaterial(defaultTexture, defaultShader);
-	testMesh = CreateMesh("models/sphere.obj");
+	//START ALL MESH RENDERS
+	for (int i = 0; i < meshRenders.size(); i++) {
+		if (!meshRenders[i].Start()) {
+			//delete the mesh render if it fails to start
+		}
+	}
+	//START ALL MATERIALS
+	for (int i = 0; i < materials.size(); i++) {
+		if (!materials[i].Start()) {
+			//delete the material if it fails to start
+		}
+	}
 
 	glEnable(GL_DEPTH_TEST);
 	return true;
 }
 
 void Render::Update(float dt) {
+	//Get the current camera
 	Camera* camPtr = Get<Camera*>(curCamera);
-	Material* curMat = Get<Material*>(defaultMaterial);
-	Mesh* curMesh = Get<Mesh*>(testMesh);
+	if (camPtr == nullptr) {
+		cout << "\nNO VALID CAMERA";
+		return;
+	}
 
-	curMat->GetShader()->use();
+	//Loop through all mesh renders
+	for (int i = 0; i < meshRenders.size(); i++) {
+		//Get the object's mesh
+		Mesh* curMesh = meshRenders[i].GetMesh();
+		if (curMesh == nullptr) { continue; }
+		
+		//Get the object's transform
+		Transform* curTransform = meshRenders[i].GetGameObject()->GetComponent<Transform*>(pType::TRANSFORM);
+		if (curTransform == nullptr) { continue; }
 
-	camPtr->Update();
-	curMat->GetShader()->applyMatrix(&camPtr->camMatrix, glm::vec3(1.2f, 1.0f, 2.0f), camPtr->loc);
+		//Get the object's material (or the default)
+		Material* curMat = nullptr;// meshRenders[i].GetGameObject()->GetComponent<Material*>(pType::MATERIAL);
+		if (curMat == nullptr) {
+			curMat = Get<Material*>(defaultMaterial);
+		}
 
-	curMat->GetTexture()->use();
+		curMat->GetShader()->use();
 
-	//Render
-	curMesh->Render();
+		camPtr->Update();
+		curMat->GetShader()->applyCameraMatrix(&camPtr->camMatrix);
+		curMat->GetShader()->applyModelMatrix(&curTransform->modelMatrix());
+		curMat->GetShader()->applyLightInfo(glm::vec3(1.2f, 1.0f, 2.0f), camPtr->loc);
+
+		curMat->GetTexture()->use();
+
+		//Render
+		curMesh->Render();
+	}
 }
 
 void* Render::Get(Handle h) {
@@ -42,16 +75,36 @@ Handle Render::Add(void* pointer, pType type) {
 	return Engine::OF.Add(pointer, type);
 }
 
+template<typename T>
+inline T Render::Get(Handle h) {
+	return Engine::OF.Get<T>(h);
+}
+
 /*
 
 COMPONENTS
 
 */
 Handle Render::CreateMaterial(Handle mTexture, Handle mShader) {
-	materials.push_back(Material(mTexture, mShader));
-	Handle matHandle = Add(&materials[materials.size() - 1], pType::MATERIAL);
-	materials[materials.size() - 1].handle = matHandle;
-	return matHandle;
+	if (mTexture != Handle() && mShader != Handle()) {
+		materials.push_back(Material(mTexture, mShader));
+		Handle matHandle = Add(&materials[materials.size() - 1], pType::MATERIAL);
+		materials[materials.size() - 1].handle = matHandle;
+		return matHandle;
+	}
+	cout << "\nInvalid texture or shader handle pased to CreateMaterial";
+	return Handle();
+}
+
+Handle Render::CreateMeshRender(Handle meshHandle) {
+	//Check for valid mesh
+	if (meshHandle == Handle()) {
+		return Handle();
+	}
+	meshRenders.push_back(MeshRender(meshHandle));
+	Handle meshRenderHandle = Add(&meshRenders[meshRenders.size() - 1], pType::MESH_RENDER);
+	meshRenders[meshRenders.size() - 1].handle = meshRenderHandle;
+	return meshRenderHandle;
 }
 
 /*

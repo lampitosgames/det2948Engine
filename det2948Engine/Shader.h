@@ -27,7 +27,9 @@ public:
 	//Helper method used by load to read and compile a shader file and save the index where it is stored
 	bool compile(GLenum shaderType);
 	//Give the shader new matrices to use
-	void applyMatrix(glm::mat4* cameraMatrix, glm::vec3 lightLocation, glm::vec3 camLocation);
+	void applyCameraMatrix(glm::mat4* cameraMatrix);
+	void applyLightInfo(glm::vec3 lightLocation, glm::vec3 camLocation);
+	void applyModelMatrix(glm::mat4* modelMatrix);
 	//calls glUseProgram(program).  a simple function wrapper
 	void use();
 	//Unloads and deallocates this shader's memory on the graphics card.

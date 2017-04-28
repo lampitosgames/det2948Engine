@@ -1,6 +1,7 @@
 #include "ObjectFactory.h"
+#include "Transform.h"
+#include "MeshRender.h"
 #include "Engine.h"
-#include "Component.h"
 
 ObjectFactory::ObjectFactory() {
 }
@@ -12,8 +13,22 @@ ObjectFactory::~ObjectFactory() {
 }
 
 bool ObjectFactory::Start() {
-	testObj1 = CreateGameObject<GameObject>("object1");
+	//CREATE OBJECTS
+	//Create the camera
 	Engine::renderSys.curCamera = Engine::OF.CreateGameObject<Camera>("MainCamera");
+	//Create a mesh
+	sphereMesh = Engine::renderSys.CreateMesh("models/sphere.obj");
+	//cubeMesh = Engine::renderSys.CreateMesh("models/box.obj");
+	//Create a game object
+	cubeObj = CreateGameObject<GameObject>("cube");
+	sphereObj = CreateGameObject<GameObject>("sphere");
+	//Give the sphere object a mesh renderer
+	GiveMeshRenderer(cubeObj, sphereMesh);
+	GiveMeshRenderer(sphereObj, sphereMesh);
+
+	//Move one of them 3 points in the positive x direction
+	//Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.x += 10.0f;
+
 	return true;
 }
 
@@ -41,9 +56,67 @@ Handle ObjectFactory::CreateGameObject(string tag) {
 	//Pass it's own handle and the object tag to the game object
 	object->handle = objectHandle;
 	object->tag = tag;
+	//Give game object a transform (All game objects need one)
+	GiveTransform(objectHandle);
 	return objectHandle;
 }
 
+/*
+
+ADD COMPONENTS
+
+*/
+bool ObjectFactory::GiveTransform(Handle objHandle, vec3 position = vec3(0.0f, 0.0f, 0.0f), vec3 rotation = vec3(0.0f, 0.0f, 0.0f), vec3 scale = vec3(1.0f, 1.0f, 1.0f)) {
+	GameObject* obj = Get<GameObject*>(objHandle);
+	if (obj != nullptr) {
+		//Game object does not have a transform
+		if (!obj->HasComponent(pType::TRANSFORM)) {
+			Handle transformHandle = Engine::physicsSys.CreateTransform(position, rotation, scale);
+			Get<Transform*>(transformHandle)->gameObject = objHandle;
+			obj->components[pType::TRANSFORM] = transformHandle;
+			return true;
+
+		//GameObject already has a transform, modify it's values to match input
+		} else {
+			Transform* existingTransform = Get<Transform*>(obj->components[pType::TRANSFORM]);
+			existingTransform->location = position;
+			existingTransform->rotation = rotation;
+			existingTransform->scale = scale;
+			return true;
+		}
+	}
+	//Game object was null
+	cout << "\nCannot add a transform to an object that doesn't exist";
+	return false;
+}
+
+bool ObjectFactory::GiveMeshRenderer(Handle objHandle, Handle meshHandle) {
+	GameObject* obj = Get<GameObject*>(objHandle);
+	if (obj != nullptr) {
+		//Game object can't already have a mesh render
+		if (!obj->HasComponent(pType::MESH_RENDER)) {
+			//Game object must have a transform
+			if (!obj->HasComponent(pType::TRANSFORM)) {
+				cout << "\nTrying to add Mesh Render to object without transform. Giving object with tag " << obj->tag << " default transform...";
+				//Give a default transform if it doesn't have one
+				GiveTransform(objHandle);
+			}
+			Handle meshRenderHandle = Engine::renderSys.CreateMeshRender(meshHandle);
+			Get<MeshRender*>(meshRenderHandle)->gameObject = objHandle;
+			obj->components[pType::MESH_RENDER] = meshRenderHandle;
+			return true;
+
+		//Already has a mesh render
+		} else {
+			//Simply update the existing component's mesh
+			obj->GetComponent<MeshRender*>(pType::MESH_RENDER)->mesh = meshHandle;
+			return true;
+		}
+	}
+	//Game object was null
+	cout << "\nCannot add a mesh render to an object that doesn't exist";
+	return false;
+}
 
 
 bool ObjectFactory::DeleteGameObject(Handle objHandle) {

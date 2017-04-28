@@ -37,6 +37,7 @@ namespace {
 Timer Engine::time = Timer();
 Render Engine::renderSys = Render();
 Window Engine::windowSys = Window();
+Physics Engine::physicsSys = Physics();
 ObjectFactory Engine::OF = ObjectFactory();
 
 bool Engine::Start() {
@@ -56,6 +57,11 @@ bool Engine::Start() {
 		return false;
 	}
 
+	if (!Engine::physicsSys.Start()) {
+		cout << "\nPhysics system failed to start";
+		return false;
+	}
+
 	if (!Engine::OF.Start()) {
 		cout << "\Object Factory failled to start";
 		return false;
@@ -71,12 +77,11 @@ void Engine::Update(float dt) {
 	//Update systems
 	Engine::windowSys.Update(dt);
 	Engine::renderSys.Update(dt);
+	Engine::physicsSys.Update(dt);
 	Engine::OF.Update(dt);
 
 	//TEMP : Handle inputs
 	Engine::HandleCameraInput();
-
-
 }
 
 void Engine::GameLoop() {

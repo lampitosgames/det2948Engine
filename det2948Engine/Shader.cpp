@@ -122,11 +122,13 @@ bool Shader::compile(GLenum shaderType) {
 	}
 }
 
-void Shader::applyMatrix(glm::mat4* cameraMatrix, glm::vec3 lightLocation, glm::vec3 camLocation) {
+void Shader::applyCameraMatrix(glm::mat4 * cameraMatrix) {
 	//Upload camera matrix
 	GLint camMatrix = glGetUniformLocation(this->program, "camMatrix");
 	glUniformMatrix4fv(camMatrix, 1, GL_FALSE, glm::value_ptr(*cameraMatrix));
+}
 
+void Shader::applyLightInfo(glm::vec3 lightLocation, glm::vec3 camLocation) {
 	//Upload light location
 	GLint lightPos = glGetUniformLocation(this->program, "lightPos");
 	glUniform3f(lightPos, lightLocation.x, lightLocation.y, lightLocation.z);
@@ -134,6 +136,12 @@ void Shader::applyMatrix(glm::mat4* cameraMatrix, glm::vec3 lightLocation, glm::
 	//Upload cam location
 	GLint camPos = glGetUniformLocation(this->program, "camPos");
 	glUniform3f(camPos, camLocation.x, camLocation.y, camLocation.z);
+}
+
+void Shader::applyModelMatrix(glm::mat4 * modelMatrix) {
+	//Upload camera matrix
+	GLint camMatrix = glGetUniformLocation(this->program, "modelMatrix");
+	glUniformMatrix4fv(camMatrix, 1, GL_FALSE, glm::value_ptr(*modelMatrix));
 }
 
 void Shader::use() {

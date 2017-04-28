@@ -2,13 +2,12 @@
 #include "System.h"
 #include "Render.h"
 #include "Window.h"
+#include "Physics.h"
 #include "ObjectFactory.h"
 
 #include <vector>
 #include "System.h"
 #include "Timer.h"
-
-using namespace std;
 
 static class Engine {
 public:
@@ -16,6 +15,7 @@ public:
 
 	static Window windowSys;
 	static Render renderSys;
+	static Physics physicsSys;
 	static ObjectFactory OF;
 
 	static bool Start();

@@ -3,7 +3,7 @@
 enum pType {
 	//Components
 	TRANSFORM = 0,
-	MESH_RENDERER = 1,
+	MESH_RENDER = 1,
 	MATERIAL = 2,
 	//Game-Objects
 	GAME_OBJECT = 3,

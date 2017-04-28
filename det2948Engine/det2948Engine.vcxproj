@@ -122,13 +122,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HandleManager.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshRender.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -147,7 +150,9 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshRender.h" />
     <ClInclude Include="ObjectFactory.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="pType.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Shader.h" />

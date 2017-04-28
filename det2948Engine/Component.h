@@ -1,4 +1,5 @@
 #pragma once
+class GameObject;
 #include "pType.h"
 #include "Handle.h"
 #include "HandledObject.h"
@@ -10,4 +11,6 @@ public:
 
 	virtual bool Start() = 0;
 	virtual void Update() = 0;
+
+	GameObject* GetGameObject();
 };
