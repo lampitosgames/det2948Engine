@@ -4,4 +4,5 @@
 class HandledObject {
 public:
 	Handle handle;
+	int index;
 };

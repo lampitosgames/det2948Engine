@@ -13,3 +13,4 @@ enum pType {
 	TEXTURE = 6
 };
 const int numpTypes = 3;
+const int typeArraySize = 256;

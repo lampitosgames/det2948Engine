@@ -16,11 +16,9 @@ public:
 	float aspectRatio = 1.7777777777f;
 	float near = 0.01f;
 	float far = 1000.0f;
-	//World Location
-	//TODO: Create a transform object that can be used for things
-	glm::vec3 loc = { 0.0f, 0.0f, 6.0f };
-	glm::vec3 rot = { 0.0f, 0.0f, 0.0f };
-	glm::vec3 vel = { 0.0f, 0.0f, 0.0f };
+
+	//TODO: Replace with rigidbody
+	glm::vec3 vel;
 
 	//Rotation matrices
 	glm::mat4 lookAtMatrix;

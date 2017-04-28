@@ -2,6 +2,10 @@
 #include "Texture.h"
 #include "Engine.h"
 
+Material::Material() {
+
+}
+
 Material::Material(Handle texHandle, Handle shaderHandle) {
 	this->texture = texHandle;
 	this->shader = shaderHandle;

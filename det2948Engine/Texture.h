@@ -17,6 +17,7 @@ public:
 	char* filepath;
 	GLuint texID;
 
+	Texture();
 	Texture(char* inFilepath);
 	~Texture();
 	bool Load();

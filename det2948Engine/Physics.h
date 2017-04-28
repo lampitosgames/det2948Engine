@@ -8,7 +8,8 @@ using namespace std;
 
 class Physics : public System {
 public:
-	vector<Transform> transforms;
+	Transform transforms[typeArraySize];
+	int transCount = 0;
 
 	bool Start();
 	void Update(float dt);

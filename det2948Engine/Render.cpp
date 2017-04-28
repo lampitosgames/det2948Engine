@@ -5,21 +5,18 @@
 #include <glm\glm.hpp>
 #include <iostream>
 
-Render::Render() {
-}
-
 bool Render::Start() {
 	Handle defaultShader = CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
 	Handle defaultTexture = CreateTexture("images/debugTexture.png");
 	defaultMaterial = CreateMaterial(defaultTexture, defaultShader);
 	//START ALL MESH RENDERS
-	for (int i = 0; i < meshRenders.size(); i++) {
+	for (int i = 0; i < mereCount; i++) {
 		if (!meshRenders[i].Start()) {
 			//delete the mesh render if it fails to start
 		}
 	}
 	//START ALL MATERIALS
-	for (int i = 0; i < materials.size(); i++) {
+	for (int i = 0; i < matCount; i++) {
 		if (!materials[i].Start()) {
 			//delete the material if it fails to start
 		}
@@ -38,14 +35,17 @@ void Render::Update(float dt) {
 	}
 
 	//Loop through all mesh renders
-	for (int i = 0; i < meshRenders.size(); i++) {
+	for (int i = 0; i < mereCount; i++) {
 		//Get the object's mesh
 		Mesh* curMesh = meshRenders[i].GetMesh();
 		if (curMesh == nullptr) { continue; }
 		
-		//Get the object's transform
-		Transform* curTransform = meshRenders[i].GetGameObject()->GetComponent<Transform*>(pType::TRANSFORM);
+		//Get the object's transform6
+		GameObject* obj = meshRenders[i].GetGameObject();
+		Transform* curTransform = obj->GetComponent<Transform*>(pType::TRANSFORM);
 		if (curTransform == nullptr) { continue; }
+
+		Engine::physicsSys.transforms;
 
 		//Get the object's material (or the default)
 		Material* curMat = nullptr;// meshRenders[i].GetGameObject()->GetComponent<Material*>(pType::MATERIAL);
@@ -58,7 +58,7 @@ void Render::Update(float dt) {
 		camPtr->Update();
 		curMat->GetShader()->applyCameraMatrix(&camPtr->camMatrix);
 		curMat->GetShader()->applyModelMatrix(&curTransform->modelMatrix());
-		curMat->GetShader()->applyLightInfo(glm::vec3(1.2f, 1.0f, 2.0f), camPtr->loc);
+		curMat->GetShader()->applyLightInfo(glm::vec3(1.2f, 1.0f, 2.0f), camPtr->GetComponent<Transform*>(pType::TRANSFORM)->location);
 
 		curMat->GetTexture()->use();
 
@@ -87,9 +87,10 @@ COMPONENTS
 */
 Handle Render::CreateMaterial(Handle mTexture, Handle mShader) {
 	if (mTexture != Handle() && mShader != Handle()) {
-		materials.push_back(Material(mTexture, mShader));
-		Handle matHandle = Add(&materials[materials.size() - 1], pType::MATERIAL);
-		materials[materials.size() - 1].handle = matHandle;
+		materials[matCount++] = Material(mTexture, mShader);
+		Handle matHandle = Add(&materials[matCount - 1], pType::MATERIAL);
+		materials[matCount - 1].handle = matHandle;
+		materials[matCount - 1].index = matCount - 1;
 		return matHandle;
 	}
 	cout << "\nInvalid texture or shader handle pased to CreateMaterial";
@@ -101,9 +102,10 @@ Handle Render::CreateMeshRender(Handle meshHandle) {
 	if (meshHandle == Handle()) {
 		return Handle();
 	}
-	meshRenders.push_back(MeshRender(meshHandle));
-	Handle meshRenderHandle = Add(&meshRenders[meshRenders.size() - 1], pType::MESH_RENDER);
-	meshRenders[meshRenders.size() - 1].handle = meshRenderHandle;
+	meshRenders[mereCount++] = MeshRender(meshHandle);
+	Handle meshRenderHandle = Add(&meshRenders[mereCount - 1], pType::MESH_RENDER);
+	meshRenders[mereCount - 1].handle = meshRenderHandle;
+	meshRenders[mereCount - 1].index = mereCount - 1;
 	return meshRenderHandle;
 }
 
@@ -113,39 +115,42 @@ CREATE RESOURCES
 
 */
 Handle Render::CreateTexture(char * filepath) {
-	textures.push_back(Texture(filepath));
-	if (textures[textures.size()-1].Load()) {
-		Handle texHandle = Add(&textures[textures.size() - 1], pType::TEXTURE);
-		textures[textures.size() - 1].handle = texHandle;
+	textures[texCount++] = Texture(filepath);
+	if (textures[texCount-1].Load()) {
+		Handle texHandle = Add(&textures[texCount - 1], pType::TEXTURE);
+		textures[texCount - 1].handle = texHandle;
 		return texHandle;
 	}
 	cout << "\nTexture failed to load";
-	textures.erase(textures.end() - 1);
+	texCount -= 1;
 	return Handle();
 }
 
 Handle Render::CreateShader(char * vShaderPath, char * fShaderPath) {
-	shaders.push_back(Shader(vShaderPath, fShaderPath));
-	if (shaders[shaders.size()-1].load()) {
+	shaders[shCount++] = Shader(vShaderPath, fShaderPath);
+	if (shaders[shCount-1].load()) {
 		//TODO: Delete this and add lighting support
-		shaders[shaders.size() - 1].lightLoc = glm::vec3(1.2f, 1.0f, 2.0f);
-		Handle sdrHandle = Add(&shaders[shaders.size() - 1], pType::SHADER);
-		shaders[shaders.size() - 1].handle = sdrHandle;
+		shaders[shCount - 1].lightLoc = glm::vec3(1.2f, 1.0f, 2.0f);
+		Handle sdrHandle = Add(&shaders[shCount - 1], pType::SHADER);
+		shaders[shCount - 1].handle = sdrHandle;
+		shaders[shCount - 1].index = shCount - 1;
 		return sdrHandle;
 	}
 	cout << "\nShader failed to load\n";
-	shaders.erase(shaders.end() - 1);
+	shCount -= 1;
 	return Handle();
 }
 
 Handle Render::CreateMesh(string filepath) {
-	meshes.push_back(Mesh());
-	if (meshes[meshes.size()-1].bufferModel(filepath)) {
-		Handle mesHandle = Add(&meshes[meshes.size() - 1], pType::MESH);
-		meshes[meshes.size() - 1].handle = mesHandle;
+	meshes[meCount++] = Mesh();
+	if (meshes[meCount -1].bufferModel(filepath)) {
+		Handle mesHandle = Add(&meshes[meCount - 1], pType::MESH);
+		meshes[meCount - 1].handle = mesHandle;
+		meshes[meCount - 1].index = meCount - 1;
 		return mesHandle;
 	}
 	cout << "\nFailed to load model";
+	meCount -= 1;
 	return Handle();
 }
 

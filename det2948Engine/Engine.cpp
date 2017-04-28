@@ -95,10 +95,11 @@ void Engine::GameLoop() {
 
 void Engine::HandleCameraInput() {
 	Camera* curCamera = Engine::OF.Get<Camera*>(Engine::renderSys.curCamera);
+	Transform* camTransf = curCamera->GetComponent<Transform*>(pType::TRANSFORM);
 	//Camera location vector
-	glm::vec3* cl = &((*curCamera).loc);
+	glm::vec3* cl = &(camTransf->location);
 	//Camera rotation vector
-	glm::vec3* cr = &((*curCamera).rot);
+	glm::vec3* cr = &(camTransf->rotation);
 
 	glm::mat3 R = (glm::mat3)glm::yawPitchRoll((*cr).y, (*cr).x, (*cr).z);
 

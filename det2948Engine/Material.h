@@ -14,6 +14,7 @@ public:
 	Handle texture;
 	Handle shader;
 
+	Material();
 	Material(Handle texHandle, Handle shaderHandle);
 
 	bool Start();
