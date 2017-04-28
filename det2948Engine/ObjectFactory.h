@@ -17,13 +17,14 @@ private:
 	//Debug test objects
 	Handle sphereMesh;
 	Handle cubeMesh;
-	Handle cubeObj;
+	Handle rotatingCube;
 	Handle sphereObj;
 
 public:
-	vector<GameObject*> gameObjects;
+	GameObject* gameObjects[typeArraySize];
+	int goCount = 0;
 
-	ObjectFactory() : gameObjects(100) {};
+	ObjectFactory();
 	~ObjectFactory();
 
 	bool Start();

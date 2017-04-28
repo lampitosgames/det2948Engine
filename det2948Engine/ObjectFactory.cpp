@@ -4,8 +4,11 @@
 #include "Engine.h"
 
 
+ObjectFactory::ObjectFactory() {
+}
+
 ObjectFactory::~ObjectFactory() {
-	for (int i = 0; i < gameObjects.size(); i++) {
+	for (int i = 0; i < goCount; i++) {
 		delete gameObjects[i];
 	}
 }
@@ -14,35 +17,35 @@ bool ObjectFactory::Start() {
 	//CREATE OBJECTS
 	//Create the camera
 	Engine::renderSys.curCamera = Engine::OF.CreateGameObject<Camera>("MainCamera");
+	Get<GameObject*>(Engine::renderSys.curCamera)->GetComponent<Transform*>(pType::TRANSFORM)->location.z = 6.0f;
 	//Create a mesh - creation order matters.  second one breaks the handle
 	sphereMesh = Engine::renderSys.CreateMesh("models/sphere.obj");
 	cubeMesh = Engine::renderSys.CreateMesh("models/box.obj");
 
-	Mesh* spherePtrFromHandle = Get<Mesh*>(sphereMesh);
-	Mesh* cubePtrFromHandle = Get<Mesh*>(cubeMesh);
-
-	Mesh* spherePtrFromArray = &Engine::renderSys.meshes[0];
-	Mesh* cubePtrFromArray = &Engine::renderSys.meshes[1];
-
 	//Create a game object
-	cubeObj = CreateGameObject<GameObject>("cube");
+	rotatingCube = CreateGameObject<GameObject>("rotating cube");
 	sphereObj = CreateGameObject<GameObject>("sphere");
 	//Give the sphere object a mesh renderer
 	GiveMeshRenderer(sphereObj, sphereMesh);
-	GiveMeshRenderer(cubeObj, cubeMesh);
+	GiveMeshRenderer(rotatingCube, cubeMesh);
 
-	//Move one of them 3 points in the positive x direction
-	Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.y += 3.1415/4.0;
-	Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.z += 3.1415 / 4.0;
-	Get<GameObject*>(cubeObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.x += 3.0;
-
+	for (int i = 0; i < goCount; i++) {
+		gameObjects[i]->Update();
+	}
 	return true;
 }
 
 void ObjectFactory::Update(float dt) {
-	for (int i = 0; i < gameObjects.size(); i++) {
-		if (gameObjects[i] != nullptr) {
-			gameObjects[i]->Update();
+	for (int i = 0; i < goCount; i++) {
+		gameObjects[i]->Update();
+		//Temp code for updating objects.  Eventually stuff like this will go in scripting components.
+		if (gameObjects[i]->tag == "rotating cube") {
+			Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.y += 4 * dt;
+			Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.x += 2 * dt;
+			Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.z += 3 * dt;
+		}
+		if (gameObjects[i]->tag == "sphere") {
+			Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.x += 0.3 * dt;
 		}
 	}
 }
@@ -59,17 +62,12 @@ template<typename T>
 Handle ObjectFactory::CreateGameObject(string tag) {
 	T* object = new T();
 	//Create the game object
-	int i;
-	for (i = 0; i < gameObjects.size(); i++) {
-		if (gameObjects[i] == nullptr) {
-			gameObjects[i] = object;
-			break;
-		}
-	}
+	gameObjects[goCount++] = object;
 	//Get a handle for it
 	Handle objectHandle = Add(object, pType::GAME_OBJECT);
 	//Pass it's own handle and the object tag to the game object
 	object->handle = objectHandle;
+	object->index = goCount - 1;
 	object->tag = tag;
 	//Give game object a transform (All game objects need one)
 	GiveTransform(objectHandle);

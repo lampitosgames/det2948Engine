@@ -21,15 +21,16 @@ void Camera::Start() {
 }
 
 void Camera::Update() {
-	this->loc += this->vel;
+	Transform* transf = this->GetComponent<Transform*>(pType::TRANSFORM);
+	transf->location += this->vel;
 	this->vel = vec3(0, 0, 0);
 	//Update matrices based on current attributes
 	//TODO: Dont update unless things have changed
-	mat3 rotMat = (mat3)yawPitchRoll(this->rot.y, this->rot.x, this->rot.z);
+	mat3 rotMat = (mat3)yawPitchRoll(transf->rotation.y, transf->rotation.x, transf->rotation.z);
 
 	//Get the lookAt matrix
 	//The position of the camera's view
-	vec3 eye = this->loc;
+	vec3 eye = transf->location;
 	//Where the camera is pointed (where it's 'centered on')
 	vec3 center = eye + rotMat*vec3(0, 0, -1);
 	//Defines the upwards direction by rotating a unit vector by the rotation matrix
