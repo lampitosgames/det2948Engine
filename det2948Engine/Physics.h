@@ -10,6 +10,8 @@ class Physics : public System {
 public:
 	vector<Transform> transforms;
 
+	Physics() : transforms(100) {};
+
 	bool Start();
 	void Update(float dt);
 

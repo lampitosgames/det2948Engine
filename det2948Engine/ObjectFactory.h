@@ -23,7 +23,7 @@ private:
 public:
 	vector<GameObject*> gameObjects;
 
-	ObjectFactory();
+	ObjectFactory() : gameObjects(100) {};
 	~ObjectFactory();
 
 	bool Start();

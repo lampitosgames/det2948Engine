@@ -12,6 +12,7 @@ public:
 
 	Handle mesh;
 
+	MeshRender() {};
 	MeshRender(Handle meshHandle);
 
 	bool Start();

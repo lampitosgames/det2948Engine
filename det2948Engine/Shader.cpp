@@ -12,6 +12,11 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>
 
+Shader::Shader() {
+	this->filenamev = "shaders/vPhong.glsl";
+	this->filenamef = "shaders/fPhong.glsl";
+}
+
 Shader::Shader(string vFilepath, string fFilepath) {
 	this->filenamev = vFilepath;
 	this->filenamef = fFilepath;

@@ -8,6 +8,10 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>
 
+Texture::Texture() {
+	filepath = "images/debugTexture.png";
+}
+
 Texture::Texture(char* inFilepath) {
 	filepath = inFilepath;
 }

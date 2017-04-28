@@ -20,6 +20,7 @@ private:
 public:
 	glm::vec3 lightLoc;
 
+	Shader();
 	Shader(string vFilepath, string fFilepath);
 
 	//Load shaders.  Set the value of programs to 0 if it fails, or something other than 0 if it succeeds

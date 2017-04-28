@@ -1,8 +1,12 @@
-﻿  Render.cpp
-c:\users\daniel timko\projects\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\daniel timko\projects\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-c:\users\daniel timko\projects\det2948engine\det2948engine\render.cpp(16): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel timko\projects\det2948engine\det2948engine\render.cpp(22): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel timko\projects\det2948engine\det2948engine\render.cpp(41): warning C4018: '<': signed/unsigned mismatch
-  det2948Engine.vcxproj -> C:\Users\Daniel Timko\projects\det2948Engine\Debug\det2948Engine.exe
-  det2948Engine.vcxproj -> C:\Users\Daniel Timko\projects\det2948Engine\Debug\det2948Engine.pdb (Partial PDB)
+﻿  ObjectFactory.cpp
+d:\profiles\det2948\downloads\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\profiles\det2948\downloads\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(8): warning C4018: '<': signed/unsigned mismatch
+d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(35): warning C4305: '+=': truncation from 'double' to 'float'
+d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(36): warning C4305: '+=': truncation from 'double' to 'float'
+d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(43): warning C4018: '<': signed/unsigned mismatch
+d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(60): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
+  d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(16): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
+d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(63): warning C4018: '<': signed/unsigned mismatch
+  det2948Engine.vcxproj -> D:\Profiles\det2948\Downloads\det2948Engine\Debug\det2948Engine.exe
+  det2948Engine.vcxproj -> D:\Profiles\det2948\Downloads\det2948Engine\Debug\det2948Engine.pdb (Partial PDB)

@@ -3,8 +3,6 @@
 #include "MeshRender.h"
 #include "Engine.h"
 
-ObjectFactory::ObjectFactory() {
-}
 
 ObjectFactory::~ObjectFactory() {
 	for (int i = 0; i < gameObjects.size(); i++) {
@@ -16,25 +14,36 @@ bool ObjectFactory::Start() {
 	//CREATE OBJECTS
 	//Create the camera
 	Engine::renderSys.curCamera = Engine::OF.CreateGameObject<Camera>("MainCamera");
-	//Create a mesh
+	//Create a mesh - creation order matters.  second one breaks the handle
 	sphereMesh = Engine::renderSys.CreateMesh("models/sphere.obj");
-	//cubeMesh = Engine::renderSys.CreateMesh("models/box.obj");
+	cubeMesh = Engine::renderSys.CreateMesh("models/box.obj");
+
+	Mesh* spherePtrFromHandle = Get<Mesh*>(sphereMesh);
+	Mesh* cubePtrFromHandle = Get<Mesh*>(cubeMesh);
+
+	Mesh* spherePtrFromArray = &Engine::renderSys.meshes[0];
+	Mesh* cubePtrFromArray = &Engine::renderSys.meshes[1];
+
 	//Create a game object
 	cubeObj = CreateGameObject<GameObject>("cube");
 	sphereObj = CreateGameObject<GameObject>("sphere");
 	//Give the sphere object a mesh renderer
-	GiveMeshRenderer(cubeObj, sphereMesh);
 	GiveMeshRenderer(sphereObj, sphereMesh);
+	GiveMeshRenderer(cubeObj, cubeMesh);
 
 	//Move one of them 3 points in the positive x direction
-	//Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.x += 10.0f;
+	Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.y += 3.1415/4.0;
+	Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.z += 3.1415 / 4.0;
+	Get<GameObject*>(cubeObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.x += 3.0;
 
 	return true;
 }
 
 void ObjectFactory::Update(float dt) {
 	for (int i = 0; i < gameObjects.size(); i++) {
-		gameObjects[i]->Update();
+		if (gameObjects[i] != nullptr) {
+			gameObjects[i]->Update();
+		}
 	}
 }
 
@@ -50,7 +59,13 @@ template<typename T>
 Handle ObjectFactory::CreateGameObject(string tag) {
 	T* object = new T();
 	//Create the game object
-	gameObjects.push_back(object);
+	int i;
+	for (i = 0; i < gameObjects.size(); i++) {
+		if (gameObjects[i] == nullptr) {
+			gameObjects[i] = object;
+			break;
+		}
+	}
 	//Get a handle for it
 	Handle objectHandle = Add(object, pType::GAME_OBJECT);
 	//Pass it's own handle and the object tag to the game object

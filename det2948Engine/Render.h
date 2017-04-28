@@ -25,7 +25,7 @@ public:
 
 	Handle curCamera;
 
-	Render();
+	Render() : meshRenders(100), materials(100), textures(100), meshes(100), shaders(100) {};
 
 	bool Start();
 	void Update(float dt);

@@ -5,9 +5,6 @@
 #include <glm\glm.hpp>
 #include <iostream>
 
-Render::Render() {
-}
-
 bool Render::Start() {
 	Handle defaultShader = CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
 	Handle defaultTexture = CreateTexture("images/debugTexture.png");
@@ -43,9 +40,12 @@ void Render::Update(float dt) {
 		Mesh* curMesh = meshRenders[i].GetMesh();
 		if (curMesh == nullptr) { continue; }
 		
-		//Get the object's transform
-		Transform* curTransform = meshRenders[i].GetGameObject()->GetComponent<Transform*>(pType::TRANSFORM);
+		//Get the object's transform6
+		GameObject* obj = meshRenders[i].GetGameObject();
+		Transform* curTransform = obj->GetComponent<Transform*>(pType::TRANSFORM);
 		if (curTransform == nullptr) { continue; }
+
+		Engine::physicsSys.transforms;
 
 		//Get the object's material (or the default)
 		Material* curMat = nullptr;// meshRenders[i].GetGameObject()->GetComponent<Material*>(pType::MATERIAL);
