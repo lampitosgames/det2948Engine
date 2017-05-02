@@ -1,8 +1,21 @@
 ﻿  ObjectFactory.cpp
-d:\profiles\det2948\downloads\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\profiles\det2948\downloads\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(63): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
-  d:\profiles\det2948\downloads\det2948engine\det2948engine\objectfactory.cpp(19): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
-  det2948Engine.vcxproj -> D:\Profiles\det2948\Downloads\det2948Engine\Debug\det2948Engine.exe
-  det2948Engine.vcxproj -> D:\Profiles\det2948\Downloads\det2948Engine\Debug\det2948Engine.pdb (Partial PDB)
+g:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(48): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(65): error C2908: explicit specialization; 'T *ObjectFactory::Get<GameObject*>(Handle)' has already been instantiated
+          with
+          [
+              T=GameObject *
+          ]
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(58): error C2910: 'ObjectFactory::Get': cannot be explicitly specialized
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(154): error C2672: 'ObjectFactory::Get': no matching overloaded function found
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(154): error C2893: Failed to specialize function template 'T ObjectFactory::Get(Handle)'
+  g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(154): note: With the following template arguments:
+  g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(154): note: 'T=GameObject *'
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(178): error C2672: 'ObjectFactory::Get': no matching overloaded function found
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(178): error C2893: Failed to specialize function template 'T ObjectFactory::Get(Handle)'
+  g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(178): note: With the following template arguments:
+  g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(178): note: 'T=GameObject *'
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Component.cpp

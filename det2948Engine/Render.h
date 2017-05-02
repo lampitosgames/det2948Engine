@@ -35,10 +35,9 @@ public:
 	bool Start();
 	void Update(float dt);
 
-	void* Get(Handle h);
 	template<typename T> T Get(Handle h);
 
-	Handle Add(void* pointer, pType type);
+	Handle Add(int pointerIndex, pType type);
 
 	/*
 	

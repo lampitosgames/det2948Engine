@@ -50,12 +50,83 @@ void ObjectFactory::Update(float dt) {
 	}
 }
 
-void* ObjectFactory::Get(Handle h) {
-	return resourceManager.Get(h);
+/*
+
+GAMEOBJECT GETS
+
+*/
+template<> GameObject* ObjectFactory::Get<GameObject*>(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index != -1) {
+		return gameObjects[index];
+	}
+	cout << "\nInvalid handle, GameObject index not found";
+	return nullptr;
 }
 
-Handle ObjectFactory::Add(void* pointer, pType type) {
-	return resourceManager.Add(pointer, type);
+/*
+
+COMPONENT GETS
+
+*/
+template<> Material* ObjectFactory::Get<Material*>(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index != -1) {
+		return &Engine::renderSys.materials[index];
+	}
+	cout << "\nInvalid handle, material index not found";
+	return nullptr;
+}
+template<> MeshRender* ObjectFactory::Get<MeshRender*>(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index != -1) {
+		return &Engine::renderSys.meshRenders[index];
+	}
+	cout << "\nInvalid handle, meshrender index not found";
+	return nullptr;
+}
+template<> Transform* ObjectFactory::Get<Transform*>(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index != -1) {
+		return &Engine::physicsSys.transforms[index];
+	}
+	cout << "\nInvalid handle, transform index not found";
+	return nullptr;
+}
+
+/*
+
+RESOURCE GETS
+
+*/
+template<> Mesh* ObjectFactory::Get<Mesh*>(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index != -1) {
+		return &Engine::renderSys.meshes[index];
+	}
+	cout << "\nInvalid handle, mesh index not found";
+	return nullptr;
+}
+template<> Texture* ObjectFactory::Get<Texture*>(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index != -1) {
+		return &Engine::renderSys.textures[index];
+	}
+	cout << "\nInvalid handle, texture index not found";
+	return nullptr;
+}
+template<> Shader* ObjectFactory::Get<Shader*>(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index != -1) {
+		return &Engine::renderSys.shaders[index];
+	}
+	cout << "\nInvalid handle, shader index not found";
+	return nullptr;
+}
+
+
+Handle ObjectFactory::Add(int pointerIndex, pType type) {
+	return resourceManager.Add(pointerIndex, type);
 }
 
 template<typename T>
@@ -64,7 +135,7 @@ Handle ObjectFactory::CreateGameObject(string tag) {
 	//Create the game object
 	gameObjects[goCount++] = object;
 	//Get a handle for it
-	Handle objectHandle = Add(object, pType::GAME_OBJECT);
+	Handle objectHandle = Add(goCount - 1, pType::GAME_OBJECT);
 	//Pass it's own handle and the object tag to the game object
 	object->handle = objectHandle;
 	object->index = goCount - 1;

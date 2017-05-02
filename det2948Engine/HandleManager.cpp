@@ -52,7 +52,7 @@ void HandleManager::Clear() {
 }
 
 //Add a new item to the manager and return its handle
-Handle HandleManager::Add(void * pointer, unsigned type) {
+Handle HandleManager::Add(int pointerIndex, unsigned type) {
 	//Set the index of this handle, get the next free one, clear the old.
 	int index = firstFreeEntry;
 	firstFreeEntry = entries[index].nextFreeIndex;
@@ -62,7 +62,7 @@ Handle HandleManager::Add(void * pointer, unsigned type) {
 	entries[index].counter += 1;
 	//Set this handle to active and give it a value
 	entries[index].active = 1;
-	entries[index].entry = pointer;
+	entries[index].entry = pointerIndex;
 	//Increment the number of active entries in the handle manager
 	activeEntryCount += 1;
 	//Return a new handle that can be passed around and duplicated without worrying about pointers!
@@ -88,10 +88,10 @@ bool HandleManager::Remove(Handle handle) {
 }
 
 //Simply pass a new pointer to an existing handle
-bool HandleManager::Update(Handle handle, void * newPointer) {
+bool HandleManager::Update(Handle handle, int newPointerIndex) {
 	//Valid handle check
 	if (entries[handle.index].counter == handle.counter && entries[handle.index].active == 1) {
-		entries[handle.index].entry = newPointer;
+		entries[handle.index].entry = newPointerIndex;
 		return true;
 	}
 	//Invalid handle
@@ -99,17 +99,17 @@ bool HandleManager::Update(Handle handle, void * newPointer) {
 }
 
 //If this is a valid handle, return the contained pointer (or null)
-void* HandleManager::Get(Handle handle) {
-	void* p = nullptr;
+int HandleManager::Get(Handle handle) {
+	int p = -1;
 	if (!Get(handle, p)) {
-		return nullptr;
+		return -1;
 	}
 	return p;
 }
 
 //A much more elegant get that does a valid handle check before returning the pointer.
 //Instead of returning the void*, it returns a bool for success, instead passing the void* into a provided out variable
-bool HandleManager::Get(Handle handle, void* &out) {
+bool HandleManager::Get(Handle handle, int &out) {
 	//Valid handle check
 	if (entries[handle.index].counter == handle.counter && entries[handle.index].active == 1) {
 		out = entries[handle.index].entry;
