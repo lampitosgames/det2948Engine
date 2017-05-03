@@ -13,21 +13,19 @@
 class Render : public System {
 public:
 	//Components
-	MeshRender meshRenders[typeArraySize];
+	vector<MeshRender> meshRenders;
 	int mereCount = 0;
-	Material materials[typeArraySize];
+	vector<Material> materials;
 	int matCount = 0;
 	//Resources
-	Texture textures[typeArraySize];
+	vector<Texture> textures;
 	int texCount = 0;
-	Mesh meshes[typeArraySize];
+	vector<Mesh> meshes;
 	int meCount = 0;
-	Shader shaders[typeArraySize];
+	vector<Shader> shaders;
 	int shCount = 0;
 
 	Handle defaultMaterial;
-	Handle testMesh;
-
 	Handle curCamera;
 
 	Render() {};

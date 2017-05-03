@@ -20,7 +20,7 @@ private:
 
 public:
 	HandleManager resourceManager;
-	GameObject* gameObjects[typeArraySize];
+	vector<GameObject*> gameObjects;
 	int goCount = 0;
 
 	ObjectFactory();
@@ -42,12 +42,29 @@ public:
 	//bool GiveMaterial(Handle objHandle, Handle matHandle);
 };
 
-//template<typename T>
-//inline T ObjectFactory::Get(Handle h) {
-//	T returnPointer;
-//	if (resourceManager.Get<T>(h, returnPointer)) {
-//		return returnPointer;
-//	}
-//	cout << "\nInvalid handle, pointer not found";
-//	return nullptr;
-//}
+template<typename T> T ObjectFactory::Get(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index == -1) {
+		cout << "\nInvalid index held in pointer";
+		return nullptr;
+	}
+	switch (h.type) {
+		case pType::GAME_OBJECT:
+			return (T)gameObjects[index];
+		case pType::MATERIAL:
+			return (T)&Engine::renderSys.materials[index];
+		case pType::MESH:
+			return (T)&Engine::renderSys.meshes[index];
+		case pType::MESH_RENDER:
+			return (T)&Engine::renderSys.meshRenders[index];
+		case pType::SHADER:
+			return (T)&Engine::renderSys.shaders[index];
+		case pType::TEXTURE:
+			return (T)&Engine::renderSys.textures[index];
+		case pType::TRANSFORM:
+			return (T)&Engine::physicsSys.transforms[index];
+		default:
+			cout << "\nInvalid handle type";
+			return nullptr;
+	}
+}

@@ -83,7 +83,8 @@ COMPONENTS
 */
 Handle Render::CreateMaterial(Handle mTexture, Handle mShader) {
 	if (mTexture != Handle() && mShader != Handle()) {
-		materials[matCount++] = Material(mTexture, mShader);
+		materials.push_back(Material(mTexture, mShader));
+		matCount += 1;
 		Handle matHandle = Add(matCount - 1, pType::MATERIAL);
 		materials[matCount - 1].handle = matHandle;
 		materials[matCount - 1].index = matCount - 1;
@@ -98,7 +99,8 @@ Handle Render::CreateMeshRender(Handle meshHandle) {
 	if (meshHandle == Handle()) {
 		return Handle();
 	}
-	meshRenders[mereCount++] = MeshRender(meshHandle);
+	meshRenders.push_back(MeshRender(meshHandle));
+	mereCount += 1;
 	Handle meshRenderHandle = Add(mereCount - 1, pType::MESH_RENDER);
 	meshRenders[mereCount - 1].handle = meshRenderHandle;
 	meshRenders[mereCount - 1].index = mereCount - 1;
@@ -111,7 +113,8 @@ CREATE RESOURCES
 
 */
 Handle Render::CreateTexture(char * filepath) {
-	textures[texCount++] = Texture(filepath);
+	textures.push_back(Texture(filepath));
+	texCount += 1;
 	if (textures[texCount-1].Load()) {
 		Handle texHandle = Add(texCount - 1, pType::TEXTURE);
 		textures[texCount - 1].handle = texHandle;
@@ -123,7 +126,8 @@ Handle Render::CreateTexture(char * filepath) {
 }
 
 Handle Render::CreateShader(char * vShaderPath, char * fShaderPath) {
-	shaders[shCount++] = Shader(vShaderPath, fShaderPath);
+	shaders.push_back(Shader(vShaderPath, fShaderPath));
+	shCount += 1;
 	if (shaders[shCount-1].load()) {
 		//TODO: Delete this and add lighting support
 		shaders[shCount - 1].lightLoc = glm::vec3(1.2f, 1.0f, 2.0f);
@@ -138,7 +142,8 @@ Handle Render::CreateShader(char * vShaderPath, char * fShaderPath) {
 }
 
 Handle Render::CreateMesh(string filepath) {
-	meshes[meCount++] = Mesh();
+	meshes.push_back(Mesh());
+	meCount += 1;
 	if (meshes[meCount -1].bufferModel(filepath)) {
 		Handle mesHandle = Add(meCount - 1, pType::MESH);
 		meshes[meCount - 1].handle = mesHandle;

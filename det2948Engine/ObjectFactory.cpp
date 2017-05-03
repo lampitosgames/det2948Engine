@@ -3,7 +3,6 @@
 #include "MeshRender.h"
 #include "Engine.h"
 
-
 ObjectFactory::ObjectFactory() {
 }
 
@@ -50,79 +49,7 @@ void ObjectFactory::Update(float dt) {
 	}
 }
 
-/*
 
-GAMEOBJECT GETS
-
-*/
-template<> GameObject* ObjectFactory::Get<GameObject*>(Handle h) {
-	int index = resourceManager.Get(h);
-	if (index != -1) {
-		return gameObjects[index];
-	}
-	cout << "\nInvalid handle, GameObject index not found";
-	return nullptr;
-}
-
-/*
-
-COMPONENT GETS
-
-*/
-template<> Material* ObjectFactory::Get<Material*>(Handle h) {
-	int index = resourceManager.Get(h);
-	if (index != -1) {
-		return &Engine::renderSys.materials[index];
-	}
-	cout << "\nInvalid handle, material index not found";
-	return nullptr;
-}
-template<> MeshRender* ObjectFactory::Get<MeshRender*>(Handle h) {
-	int index = resourceManager.Get(h);
-	if (index != -1) {
-		return &Engine::renderSys.meshRenders[index];
-	}
-	cout << "\nInvalid handle, meshrender index not found";
-	return nullptr;
-}
-template<> Transform* ObjectFactory::Get<Transform*>(Handle h) {
-	int index = resourceManager.Get(h);
-	if (index != -1) {
-		return &Engine::physicsSys.transforms[index];
-	}
-	cout << "\nInvalid handle, transform index not found";
-	return nullptr;
-}
-
-/*
-
-RESOURCE GETS
-
-*/
-template<> Mesh* ObjectFactory::Get<Mesh*>(Handle h) {
-	int index = resourceManager.Get(h);
-	if (index != -1) {
-		return &Engine::renderSys.meshes[index];
-	}
-	cout << "\nInvalid handle, mesh index not found";
-	return nullptr;
-}
-template<> Texture* ObjectFactory::Get<Texture*>(Handle h) {
-	int index = resourceManager.Get(h);
-	if (index != -1) {
-		return &Engine::renderSys.textures[index];
-	}
-	cout << "\nInvalid handle, texture index not found";
-	return nullptr;
-}
-template<> Shader* ObjectFactory::Get<Shader*>(Handle h) {
-	int index = resourceManager.Get(h);
-	if (index != -1) {
-		return &Engine::renderSys.shaders[index];
-	}
-	cout << "\nInvalid handle, shader index not found";
-	return nullptr;
-}
 
 
 Handle ObjectFactory::Add(int pointerIndex, pType type) {
@@ -133,7 +60,8 @@ template<typename T>
 Handle ObjectFactory::CreateGameObject(string tag) {
 	T* object = new T();
 	//Create the game object
-	gameObjects[goCount++] = object;
+	gameObjects.push_back(object);
+	goCount += 1;
 	//Get a handle for it
 	Handle objectHandle = Add(goCount - 1, pType::GAME_OBJECT);
 	//Pass it's own handle and the object tag to the game object

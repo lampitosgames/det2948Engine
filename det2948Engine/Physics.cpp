@@ -23,7 +23,8 @@ COMPONENTS
 
 */
 Handle Physics::CreateTransform(vec3 inLoc, vec3 inRot, vec3 inScl) {
-	transforms[transCount++] = Transform(inLoc, inRot, inScl);
+	transforms.push_back(Transform(inLoc, inRot, inScl));
+	transCount += 1;
 	Handle transformhandle = Add(transCount - 1, pType::TRANSFORM);
 	transforms[transCount - 1].handle = transformhandle;
 	transforms[transCount - 1].index = transCount - 1;
