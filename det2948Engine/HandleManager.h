@@ -41,18 +41,16 @@ public:
 	void Clear();
 
 	//Add a handle
-	Handle Add(void* pointer, unsigned type);
+	Handle Add(int pointerIndex, unsigned type);
 	//Remove a handle.  Returns false if passed handle is invalid/expired
 	bool Remove(Handle handle);
 	//Update a handle.  Returns false if passed handle is invalid/expired
-	bool Update(Handle handle, void* newPointer);
+	bool Update(Handle handle, int newPointerIndex);
 	
 	//Get the pointer from the handle
-	void* Get(Handle handle);
+	int Get(Handle handle);
 	//Get the pointer and put it in a variable.  This is better since it returns the validity of the handle (prevents null pointers)
-	bool Get(Handle handle, void* &out);
-	//Gets a handle as a type
-	template<typename T> bool Get(Handle handle, T& out);
+	bool Get(Handle handle, int &out);
 
 	//Number of active handles
 	int GetCount();
@@ -74,14 +72,14 @@ private:
 		//Does this handle mark the end of the list?
 		unsigned endOfList : 1;
 		//Void pointer to the actual entry
-		void* entry;
+		int entry;
 		//Default all values
 		HandleEntry() {
 			nextFreeIndex = 0;
 			counter = 1;
 			active = 0;
 			endOfList = 0;
-			entry = nullptr;
+			entry = -1;
 		}
 		//Default all values, but pass in the next free index
 		HandleEntry(unsigned inNextFreeIndex) {
@@ -89,21 +87,10 @@ private:
 			counter = 1;
 			active = 0;
 			endOfList = 0;
-			entry = nullptr;
+			entry = -1;
 		}
 	};
 
 	//The list of all handles
 	HandleEntry entries[maxEntries];
 };
-
-//Wrapper function for Get(handle, out) that typecasts the void pointer.
-template<typename T>
-inline bool HandleManager::Get(Handle handle, T& out) {
-	void* voidOut;
-	bool validPointer = Get(handle, voidOut);
-	//Typecast the void pointer
-	out = (T)(voidOut);
-
-	return validPointer;
-}

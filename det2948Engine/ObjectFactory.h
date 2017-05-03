@@ -12,8 +12,6 @@ using namespace glm;
 
 class ObjectFactory : public System {
 private:
-	HandleManager resourceManager;
-
 	//Debug test objects
 	Handle sphereMesh;
 	Handle cubeMesh;
@@ -21,7 +19,8 @@ private:
 	Handle sphereObj;
 
 public:
-	GameObject* gameObjects[typeArraySize];
+	HandleManager resourceManager;
+	vector<GameObject*> gameObjects;
 	int goCount = 0;
 
 	ObjectFactory();
@@ -33,10 +32,9 @@ public:
 	template<typename T> Handle CreateGameObject(string tag);
 	bool DeleteGameObject(Handle objHandle);
 
-	void* Get(Handle h);
 	template<typename T> T Get(Handle h);
 
-	Handle Add(void* pointer, pType type);
+	Handle Add(int pointerIndex, pType type);
 
 	//Create and add a transform component to the object
 	bool GiveTransform(Handle objHandle, vec3 position, vec3 rotation, vec3 scale);
@@ -44,12 +42,29 @@ public:
 	//bool GiveMaterial(Handle objHandle, Handle matHandle);
 };
 
-template<typename T>
-inline T ObjectFactory::Get(Handle h) {
-	T returnPointer;
-	if (resourceManager.Get<T>(h, returnPointer)) {
-		return returnPointer;
+template<typename T> T ObjectFactory::Get(Handle h) {
+	int index = resourceManager.Get(h);
+	if (index == -1) {
+		cout << "\nInvalid index held in pointer";
+		return nullptr;
 	}
-	cout << "\nInvalid handle, pointer not found";
-	return nullptr;
+	switch (h.type) {
+		case pType::GAME_OBJECT:
+			return (T)gameObjects[index];
+		case pType::MATERIAL:
+			return (T)&Engine::renderSys.materials[index];
+		case pType::MESH:
+			return (T)&Engine::renderSys.meshes[index];
+		case pType::MESH_RENDER:
+			return (T)&Engine::renderSys.meshRenders[index];
+		case pType::SHADER:
+			return (T)&Engine::renderSys.shaders[index];
+		case pType::TEXTURE:
+			return (T)&Engine::renderSys.textures[index];
+		case pType::TRANSFORM:
+			return (T)&Engine::physicsSys.transforms[index];
+		default:
+			cout << "\nInvalid handle type";
+			return nullptr;
+	}
 }

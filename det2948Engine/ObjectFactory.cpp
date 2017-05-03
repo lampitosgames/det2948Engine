@@ -3,7 +3,6 @@
 #include "MeshRender.h"
 #include "Engine.h"
 
-
 ObjectFactory::ObjectFactory() {
 }
 
@@ -50,21 +49,21 @@ void ObjectFactory::Update(float dt) {
 	}
 }
 
-void* ObjectFactory::Get(Handle h) {
-	return resourceManager.Get(h);
-}
 
-Handle ObjectFactory::Add(void* pointer, pType type) {
-	return resourceManager.Add(pointer, type);
+
+
+Handle ObjectFactory::Add(int pointerIndex, pType type) {
+	return resourceManager.Add(pointerIndex, type);
 }
 
 template<typename T>
 Handle ObjectFactory::CreateGameObject(string tag) {
 	T* object = new T();
 	//Create the game object
-	gameObjects[goCount++] = object;
+	gameObjects.push_back(object);
+	goCount += 1;
 	//Get a handle for it
-	Handle objectHandle = Add(object, pType::GAME_OBJECT);
+	Handle objectHandle = Add(goCount - 1, pType::GAME_OBJECT);
 	//Pass it's own handle and the object tag to the game object
 	object->handle = objectHandle;
 	object->index = goCount - 1;
