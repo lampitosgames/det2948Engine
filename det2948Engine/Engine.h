@@ -1,13 +1,10 @@
 #pragma once
-#include "System.h"
-#include "Render.h"
+#include <vector>
+#include "Timer.h"
 #include "Window.h"
+#include "Render.h"
 #include "Physics.h"
 #include "ObjectFactory.h"
-
-#include <vector>
-#include "System.h"
-#include "Timer.h"
 
 static class Engine {
 public:

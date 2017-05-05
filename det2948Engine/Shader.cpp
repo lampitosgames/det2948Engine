@@ -1,12 +1,8 @@
 #include "Shader.h"
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <FreeImage.h>
-
 #include <GL\glew.h>	// The order
 #include <GLFW\glfw3.h> // Of these matters
-
 #include <glm\glm.hpp>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtx\transform.hpp>

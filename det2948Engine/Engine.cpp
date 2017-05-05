@@ -1,15 +1,13 @@
 #include "Engine.h"
-#include "Timer.h"
 #include "Handle.h"
 #include <map>
-#include <FreeImage.h>
-
 #include <GL\glew.h>	// The order
 #include <GLFW\glfw3.h> // Of these matters
-
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>
+
+#include "Camera.h" //TODO: Remove this include and move the handleCameraInput function to somewhere else
 
 namespace {
 	map<int, bool> keyIsDown;

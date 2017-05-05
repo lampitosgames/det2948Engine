@@ -1,11 +1,8 @@
 #pragma once
 #include "HandledObject.h"
-#include <iostream>
-#include <FreeImage.h>
-
+#include <string>
 #include <GL\glew.h>	// The order
 #include <GLFW\glfw3.h> // Of these matters
-
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>

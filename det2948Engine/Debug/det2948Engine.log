@@ -1,52 +1,39 @@
-﻿  Window.cpp
-  Transform.cpp
-  Timer.cpp
-  Texture.cpp
-  Shader.cpp
-j:\classes\dsa1\det2948engine\det2948engine\shader.cpp(81): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
-  Render.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-  Physics.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-  ObjectFactory.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-j:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-j:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(61): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
-  j:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(18): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
-  MeshRender.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-  Mesh.cpp
-j:\classes\dsa1\det2948engine\det2948engine\mesh.cpp(109): warning C4018: '<': signed/unsigned mismatch
-  Material.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-  HandleManager.cpp
+﻿  Timer.cpp
   Game.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-  GameObject.cpp
-  Engine.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-j:\classes\dsa1\det2948engine\det2948engine\engine.cpp(19): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
-j:\classes\dsa1\det2948engine\det2948engine\engine.cpp(23): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
-j:\classes\dsa1\det2948engine\det2948engine\engine.cpp(66): warning C4129: 'O': unrecognized character escape sequence
-j:\classes\dsa1\det2948engine\det2948engine\engine.cpp(107): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.cpp(108): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.cpp(115): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-j:\classes\dsa1\det2948engine\det2948engine\engine.cpp(116): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-  Component.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-  Camera.cpp
-j:\classes\dsa1\det2948engine\det2948engine\camera.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-j:\classes\dsa1\det2948engine\det2948engine\engine.h(28): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
   Generating Code...
-  LINK : J:\Classes\DSA1\det2948Engine\Debug\det2948Engine.exe not found or not built by the last incremental link; performing full link
+  Compiling...
+  Render.cpp
+g:\classes\dsa1\det2948engine\det2948engine\camera.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Physics.cpp
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  ObjectFactory.cpp
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+g:\classes\dsa1\det2948engine\det2948engine\camera.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(48): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(62): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
+  g:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(19): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
+  MeshRender.cpp
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Material.cpp
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Engine.cpp
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+g:\classes\dsa1\det2948engine\det2948engine\camera.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+g:\classes\dsa1\det2948engine\det2948engine\engine.cpp(17): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+g:\classes\dsa1\det2948engine\det2948engine\engine.cpp(21): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+g:\classes\dsa1\det2948engine\det2948engine\engine.cpp(64): warning C4129: 'O': unrecognized character escape sequence
+g:\classes\dsa1\det2948engine\det2948engine\engine.cpp(105): warning C4305: 'initializing': truncation from 'double' to 'float'
+g:\classes\dsa1\det2948engine\det2948engine\engine.cpp(106): warning C4305: 'initializing': truncation from 'double' to 'float'
+g:\classes\dsa1\det2948engine\det2948engine\engine.cpp(113): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+g:\classes\dsa1\det2948engine\det2948engine\engine.cpp(114): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+  Component.cpp
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Camera.cpp
+g:\classes\dsa1\det2948engine\det2948engine\camera.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+g:\classes\dsa1\det2948engine\det2948engine\engine.h(25): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Generating Code...
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  det2948Engine.vcxproj -> J:\Classes\DSA1\det2948Engine\Debug\det2948Engine.exe
-  det2948Engine.vcxproj -> J:\Classes\DSA1\det2948Engine\Debug\det2948Engine.pdb (Partial PDB)
+  det2948Engine.vcxproj -> G:\Classes\DSA1\det2948Engine\Debug\det2948Engine.exe
+  det2948Engine.vcxproj -> G:\Classes\DSA1\det2948Engine\Debug\det2948Engine.pdb (Partial PDB)

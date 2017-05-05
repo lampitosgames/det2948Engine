@@ -1,14 +1,13 @@
 #pragma once
-#include "pType.h"
-#include "System.h"
-#include "Shader.h"
-#include "Mesh.h"
-#include "Camera.h"
-#include "Texture.h"
-#include "Material.h"
-#include "MeshRender.h"
-#include "HandleManager.h"
 #include <vector>
+#include "pType.h"
+#include "Handle.h"
+#include "System.h"
+#include "MeshRender.h"
+#include "Material.h"
+#include "Texture.h"
+#include "Mesh.h"
+#include "Shader.h"
 
 class Render : public System {
 public:

@@ -1,18 +1,7 @@
 #include "Camera.h"
 #include "Engine.h"
-#include <FreeImage.h>
-
-#include <GL\glew.h>	// The order
-#include <GLFW\glfw3.h> // Of these matters
-
-#include <glm\glm.hpp>
-#include <glm\gtx\transform.hpp>
-#include <glm\gtx\euler_angles.hpp>
-
-using namespace glm;
 
 Camera::Camera() {
-
 	//Set cursor to center of window
 	glfwSetCursorPos(Engine::windowSys.window, Engine::windowSys.screenWidth*0.5f, Engine::windowSys.screenHeight*0.5f);
 }

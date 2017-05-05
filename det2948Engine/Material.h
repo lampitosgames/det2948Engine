@@ -1,7 +1,8 @@
 #pragma once
+class Texture;
+class Shader;
 #include "Component.h"
-#include "Texture.h"
-#include "Shader.h"
+#include "pType.h"
 #include "Handle.h"
 
 class Material : public Component {
