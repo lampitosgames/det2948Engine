@@ -1,8 +1,6 @@
 #pragma once
 #include "Component.h"
-#include <GL\glew.h>	// The order
-#include <GLFW\glfw3.h> // Of these matters
-
+#include "pType.h"
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>

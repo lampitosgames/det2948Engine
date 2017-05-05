@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
-#include "pType.h"
-#include "GameObject.h"
-#include "HandleManager.h"
-#include "Handle.h"
+#include <string>
 #include "System.h"
+#include "pType.h"
+#include "Handle.h"
+#include "HandleManager.h"
+#include "GameObject.h"
 #include <glm\glm.hpp>
 
 using namespace std;

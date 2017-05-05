@@ -1,16 +1,14 @@
 #pragma once
 #include "HandledObject.h"
-#include <iostream>
-#include <FreeImage.h>
-
+#include <string>
 #include <GL\glew.h>	// The order
 #include <GLFW\glfw3.h> // Of these matters
-
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>
 
 using namespace std;
+using namespace glm;
 
 class Shader : public HandledObject {
 private:
@@ -18,7 +16,7 @@ private:
 	string filenamev;
 	string filenamef;
 public:
-	glm::vec3 lightLoc;
+	vec3 lightLoc;
 
 	Shader();
 	Shader(string vFilepath, string fFilepath);
@@ -28,9 +26,9 @@ public:
 	//Helper method used by load to read and compile a shader file and save the index where it is stored
 	bool compile(GLenum shaderType);
 	//Give the shader new matrices to use
-	void applyCameraMatrix(glm::mat4* cameraMatrix);
-	void applyLightInfo(glm::vec3 lightLocation, glm::vec3 camLocation);
-	void applyModelMatrix(glm::mat4* modelMatrix);
+	void applyCameraMatrix(mat4* cameraMatrix);
+	void applyLightInfo(vec3 lightLocation, vec3 camLocation);
+	void applyModelMatrix(mat4* modelMatrix);
 	//calls glUseProgram(program).  a simple function wrapper
 	void use();
 	//Unloads and deallocates this shader's memory on the graphics card.

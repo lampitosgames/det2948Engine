@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include "pType.h"
 #include <iostream>
-#include "Component.h"
+#include "Handle.h"
+#include "pType.h"
 #include "Handle.h"
 #include "HandledObject.h"
 

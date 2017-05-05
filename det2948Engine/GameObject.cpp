@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include <iostream>
 
 GameObject::GameObject() {
 	this->tag = "default";
@@ -10,8 +9,6 @@ GameObject::GameObject() {
 
 GameObject::~GameObject() {
 }
-
-
 
 bool GameObject::HasComponent(pType type) {
 	return components[type] != Handle();

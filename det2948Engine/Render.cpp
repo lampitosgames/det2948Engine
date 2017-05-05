@@ -1,9 +1,8 @@
 #include "Render.h"
-#include "pType.h"
-#include "Camera.h"
-#include "Engine.h"
 #include <glm\glm.hpp>
 #include <iostream>
+#include "Camera.h"
+#include "Engine.h"
 
 bool Render::Start() {
 	Handle defaultShader = CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");

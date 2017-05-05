@@ -1,7 +1,8 @@
 #include "ObjectFactory.h"
+#include "Engine.h"
+#include "Camera.h"
 #include "Transform.h"
 #include "MeshRender.h"
-#include "Engine.h"
 
 ObjectFactory::ObjectFactory() {
 }

@@ -1,5 +1,6 @@
+class Shader;
+class Texture;
 #include "Material.h"
-#include "Texture.h"
 #include "Engine.h"
 
 Material::Material() {

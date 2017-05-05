@@ -1,9 +1,9 @@
 #pragma once
+class Mesh;
 #include <string>
 #include "Component.h"
 #include "pType.h"
 #include "Handle.h"
-#include "Mesh.h"
 
 class MeshRender : public Component {
 public:
