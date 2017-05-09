@@ -7,8 +7,6 @@
 #include <glm\gtx\transform.hpp>
 #include <glm\gtx\euler_angles.hpp>
 
-#include "Camera.h" //TODO: Remove this include and move the handleCameraInput function to somewhere else
-
 namespace {
 	map<int, bool> keyIsDown;
 	map<int, bool> keyWasDown;
@@ -44,6 +42,11 @@ bool Engine::Start() {
 		return false;
 	}
 
+	if (!Engine::OF.Start()) {
+		cout << "\Object Factory failled to start";
+		return false;
+	}
+
 	//Link inputs to openGL
 	glfwSetMouseButtonCallback(Engine::windowSys.window, mouseClick);
 	glfwSetKeyCallback(Engine::windowSys.window, keyCallback);
@@ -57,11 +60,6 @@ bool Engine::Start() {
 
 	if (!Engine::physicsSys.Start()) {
 		cout << "\nPhysics system failed to start";
-		return false;
-	}
-
-	if (!Engine::OF.Start()) {
-		cout << "\Object Factory failled to start";
 		return false;
 	}
 
@@ -99,7 +97,7 @@ void Engine::HandleCameraInput() {
 	//Camera rotation vector
 	glm::vec3* cr = &(camTransf->rotation);
 
-	glm::mat3 R = (glm::mat3)glm::yawPitchRoll((*cr).y, (*cr).x, (*cr).z);
+	glm::mat3 R = camTransf->rotMatrix();
 
 	//Rotation sensitivity
 	float hSens = 0.003; //Side to side
@@ -118,7 +116,7 @@ void Engine::HandleCameraInput() {
 	glfwSetCursorPos(Engine::windowSys.window, w*0.5f, h*0.5f);
 
 	//Keyboard input
-	glm::vec3 vel = (*curCamera).vel;
+	glm::vec3 vel = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	if (glfwGetKey(Engine::windowSys.window, GLFW_KEY_D)) {
 		vel += R * glm::vec3(1, 0, 0);
@@ -141,7 +139,9 @@ void Engine::HandleCameraInput() {
 
 	float speed = 4.0f;
 	if (vel != glm::vec3()) {
-		(*curCamera).vel = glm::normalize(vel) * speed * Engine::time.dt;
+		curCamera->GetComponent<RigidBody*>(pType::RIGID_BODY)->vel = glm::normalize(vel) * speed;
+	} else {
+		curCamera->GetComponent<RigidBody*>(pType::RIGID_BODY)->vel = glm::vec3(0.0f, 0.0f, 0.0f);
 	}
 }
 

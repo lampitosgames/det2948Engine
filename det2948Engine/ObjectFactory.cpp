@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Transform.h"
 #include "MeshRender.h"
+#include "RigidBody.h"
 
 ObjectFactory::ObjectFactory() {
 }
@@ -17,6 +18,8 @@ bool ObjectFactory::Start() {
 	//CREATE OBJECTS
 	//Create the camera
 	Engine::renderSys.curCamera = Engine::OF.CreateGameObject<Camera>("MainCamera");
+	GiveRigidBody(Engine::renderSys.curCamera, 0.0f);
+
 	Get<GameObject*>(Engine::renderSys.curCamera)->GetComponent<Transform*>(pType::TRANSFORM)->location.z = 6.0f;
 	//Create a mesh - creation order matters.  second one breaks the handle
 	sphereMesh = Engine::renderSys.CreateMesh("models/sphere.obj");
@@ -29,8 +32,19 @@ bool ObjectFactory::Start() {
 	GiveMeshRenderer(sphereObj, sphereMesh);
 	GiveMeshRenderer(rotatingCube, cubeMesh);
 
+	Transform* cubeTransform = Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM);
+	cubeTransform->scale.y = 0.1f;
+	cubeTransform->scale.x = 5.0f;
+	cubeTransform->scale.z = 5.0f;
+	cubeTransform->location.y = -1.0f;
+
+	GiveRigidBody(sphereObj, 0.6f);
+	Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.y = 30.0f;
+	Get<GameObject*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
+	Get<GameObject*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasDrag = true;
+
 	for (int i = 0; i < goCount; i++) {
-		gameObjects[i]->Update();
+		gameObjects[i]->Start();
 	}
 	return true;
 }
@@ -39,13 +53,8 @@ void ObjectFactory::Update(float dt) {
 	for (int i = 0; i < goCount; i++) {
 		gameObjects[i]->Update();
 		//Temp code for updating objects.  Eventually stuff like this will go in scripting components.
-		if (gameObjects[i]->tag == "rotating cube") {
-			Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.y += 4 * dt;
-			Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.x += 2 * dt;
-			Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM)->rotation.z += 3 * dt;
-		}
-		if (gameObjects[i]->tag == "sphere") {
-			Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.x += 0.3 * dt;
+		if (gameObjects[i]->tag == "sphere" && glfwGetKey(Engine::windowSys.window, GLFW_KEY_SPACE)) {
+			//Get<GameObject*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->ApplyForce(vec3(0.0f, 1.0f, 0.0f));
 		}
 	}
 }
@@ -128,6 +137,34 @@ bool ObjectFactory::GiveMeshRenderer(Handle objHandle, Handle meshHandle) {
 	}
 	//Game object was null
 	cout << "\nCannot add a mesh render to an object that doesn't exist";
+	return false;
+}
+
+bool ObjectFactory::GiveRigidBody(Handle objHandle, float mass) {
+	GameObject* obj = Get<GameObject*>(objHandle);
+	if (obj != nullptr) {
+		//Game object can't already have a mesh render
+		if (!obj->HasComponent(pType::RIGID_BODY)) {
+			//Game object must have a transform
+			if (!obj->HasComponent(pType::TRANSFORM)) {
+				cout << "\nTrying to add Rigid Body to object without transform. Giving object with tag " << obj->tag << " default transform...";
+				//Give a default transform if it doesn't have one
+				GiveTransform(objHandle);
+			}
+			Handle rigidBodyHandle = Engine::physicsSys.CreateRigidBody(mass);
+			Get<RigidBody*>(rigidBodyHandle)->gameObject = objHandle;
+			obj->components[pType::RIGID_BODY] = rigidBodyHandle;
+			return true;
+
+		//Already has a mesh render
+		} else {
+			//Simply update the existing component's mesh
+			obj->GetComponent<RigidBody*>(pType::RIGID_BODY)->mass = mass;
+			return true;
+		}
+	}
+	//Game object was null
+	cout << "\nCannot add a rigid body to an object that doesn't exist";
 	return false;
 }
 

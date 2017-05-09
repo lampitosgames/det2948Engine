@@ -133,6 +133,7 @@
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Render.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="pType.h" />
     <ClInclude Include="Render.h" />
+    <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Texture.h" />

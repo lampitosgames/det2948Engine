@@ -11,12 +11,8 @@ void Camera::Start() {
 
 void Camera::Update() {
 	Transform* transf = this->GetComponent<Transform*>(pType::TRANSFORM);
-	transf->location += this->vel;
-	this->vel = vec3(0, 0, 0);
 	//Update matrices based on current attributes
-	//TODO: Dont update unless things have changed
-	mat3 rotMat = (mat3)yawPitchRoll(transf->rotation.y, transf->rotation.x, transf->rotation.z);
-
+	mat3 rotMat = transf->rotMatrix();
 	//Get the lookAt matrix
 	//The position of the camera's view
 	vec3 eye = transf->location;

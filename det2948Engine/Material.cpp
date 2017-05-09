@@ -16,7 +16,7 @@ bool Material::Start() {
 	return true;
 }
 
-void Material::Update() {
+void Material::Update(float dt) {
 }
 
 Texture* Material::GetTexture() {

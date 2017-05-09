@@ -19,10 +19,16 @@ public:
 	Transform();
 	Transform(vec3 inLoc, vec3 inRot, vec3 inScl);
 
+	//Forward, left, up vectors
+	vec3 Forward();
+	vec3 Up();
+	vec3 Left();
+
 	bool Start();
-	void Update();
+	void Update(float dt);
 
 	//Combine to create a model-world transformation matrix
 	//When uploaded to the shader, the code is now - gl_Position = worldView * modelWorld * vec4(location, 1);
 	mat4 modelMatrix();
+	mat3 rotMatrix();
 };

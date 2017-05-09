@@ -9,7 +9,7 @@ bool MeshRender::Start() {
 	return true;
 }
 
-void MeshRender::Update() {
+void MeshRender::Update(float dt) {
 }
 
 Mesh * MeshRender::GetMesh() {

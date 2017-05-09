@@ -16,9 +16,6 @@ public:
 	float near = 0.01f;
 	float far = 1000.0f;
 
-	//TODO: Replace with rigidbody
-	vec3 vel;
-
 	//Rotation matrices
 	mat4 lookAtMatrix;
 	mat4 projMatrix;

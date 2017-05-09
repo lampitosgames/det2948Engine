@@ -6,6 +6,8 @@
 #include "Physics.h"
 #include "ObjectFactory.h"
 
+#include "Camera.h" //TODO: Remove this include and move the handleCameraInput function to somewhere else
+
 static class Engine {
 public:
 	static Timer time;

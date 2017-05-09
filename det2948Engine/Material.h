@@ -19,7 +19,7 @@ public:
 	Material(Handle texHandle, Handle shaderHandle);
 
 	bool Start();
-	void Update();
+	void Update(float dt);
 
 	Texture* GetTexture();
 	Shader* GetShader();

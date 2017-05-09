@@ -41,6 +41,7 @@ public:
 	bool GiveTransform(Handle objHandle, vec3 position, vec3 rotation, vec3 scale);
 	bool GiveMeshRenderer(Handle objHandle, Handle meshHandle);
 	//bool GiveMaterial(Handle objHandle, Handle matHandle);
+	bool GiveRigidBody(Handle objHandle, float mass);
 };
 
 template<typename T> T ObjectFactory::Get(Handle h) {
@@ -64,6 +65,8 @@ template<typename T> T ObjectFactory::Get(Handle h) {
 			return (T)&Engine::renderSys.textures[index];
 		case pType::TRANSFORM:
 			return (T)&Engine::physicsSys.transforms[index];
+		case pType::RIGID_BODY:
+			return (T)&Engine::physicsSys.rigidBodies[index];
 		default:
 			cout << "\nInvalid handle type";
 			return nullptr;

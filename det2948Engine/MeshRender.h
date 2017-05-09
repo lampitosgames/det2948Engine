@@ -16,7 +16,7 @@ public:
 	MeshRender(Handle meshHandle);
 
 	bool Start();
-	void Update();
+	void Update(float dt);
 
 	Mesh* GetMesh();
 };
