@@ -44,10 +44,10 @@ void Render::Update(float dt) {
 		Transform* curTransform = obj->GetComponent<Transform*>(pType::TRANSFORM);
 		if (curTransform == nullptr) { continue; }
 
-		Engine::physicsSys.transforms;
+		materials;
 
 		//Get the object's material (or the default)
-		Material* curMat = nullptr;// meshRenders[i].GetGameObject()->GetComponent<Material*>(pType::MATERIAL);
+		Material* curMat = obj->GetComponent<Material*>(pType::MATERIAL);
 		if (curMat == nullptr) {
 			curMat = Get<Material*>(defaultMaterial);
 		}
@@ -156,4 +156,7 @@ Handle Render::CreateMesh(string filepath) {
 
 Render::~Render() {
 	Get<Material*>(defaultMaterial)->GetShader()->unload();
+	for (int i = 0; i < texCount; i++) {
+		textures[i].Unload();
+	}
 }

@@ -10,7 +10,6 @@ Texture::Texture(char* inFilepath) {
 }
 
 Texture::~Texture() {
-	glDeleteTextures(1, &texID);
 }
 
 bool Texture::Load() {
@@ -30,6 +29,10 @@ bool Texture::Load() {
 	FreeImage_Unload(image32Bit);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return true;
+}
+
+void Texture::Unload() {
+	glDeleteTextures(1, &texID);
 }
 
 void Texture::use() {

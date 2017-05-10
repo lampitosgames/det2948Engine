@@ -14,5 +14,6 @@ public:
 	Texture(char* inFilepath);
 	~Texture();
 	bool Load();
+	void Unload();
 	void use();
 };

@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "MeshRender.h"
+#include "Material.h"
 #include "RigidBody.h"
 
 ObjectFactory::ObjectFactory() {
@@ -34,10 +35,16 @@ bool ObjectFactory::Start() {
 	GiveMeshRenderer(sphereObj, sphereMesh);
 	GiveMeshRenderer(rotatingCube, cubeMesh);
 
+	Handle shader = Engine::renderSys.CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
+	Handle texture = Engine::renderSys.CreateTexture("images/metal.png");
+	Handle materialHandle = Engine::renderSys.CreateMaterial(texture, shader);
+
+	GiveMaterial(rotatingCube, materialHandle);
+
 	Transform* cubeTransform = Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM);
 	cubeTransform->scale.x = 5.0f;
 	cubeTransform->scale.z = 5.0f;
-	cubeTransform->location.y = -1.5f;
+	cubeTransform->location.y = -2.0f;
 
 	GiveRigidBody(sphereObj, 3.0f);
 	Get<BouncingBall*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.y = 30.0f;
@@ -138,6 +145,17 @@ bool ObjectFactory::GiveMeshRenderer(Handle objHandle, Handle meshHandle) {
 	}
 	//Game object was null
 	cout << "\nCannot add a mesh render to an object that doesn't exist";
+	return false;
+}
+
+bool ObjectFactory::GiveMaterial(Handle objHandle, Handle matHandle) {
+	GameObject* obj = Get<GameObject*>(objHandle);
+	if (obj != nullptr) {
+			obj->components[pType::MATERIAL] = matHandle;
+			return true;
+	}
+	//Game object was null
+	cout << "\nCannot add a material to an object that doesn't exist";
 	return false;
 }
 

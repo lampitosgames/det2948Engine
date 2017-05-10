@@ -1,8 +1,52 @@
-﻿  ObjectFactory.cpp
+﻿  Camera.cpp
 i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
 i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
 i:\classes\dsa1\det2948engine\det2948engine\camera.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-i:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(72): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
-  i:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(22): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
+i:\classes\dsa1\det2948engine\det2948engine\camera.cpp(44): warning C4305: 'initializing': truncation from 'double' to 'float'
+i:\classes\dsa1\det2948engine\det2948engine\camera.cpp(45): warning C4305: 'initializing': truncation from 'double' to 'float'
+  Generating Code...
+  Compiling...
+  RigidBody.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\rigidbody.cpp(33): warning C4305: '+=': truncation from 'double' to 'float'
+  Render.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\camera.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+  Physics.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  ObjectFactory.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\camera.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+i:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(79): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
+  i:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(23): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
+  MeshRender.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Material.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Input.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\input.cpp(13): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+i:\classes\dsa1\det2948engine\det2948engine\input.cpp(22): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+  GameObject.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Game.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Engine.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.cpp(29): warning C4129: 'O': unrecognized character escape sequence
+  Component.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
+  Generating Code...
   det2948Engine.vcxproj -> I:\Classes\DSA1\det2948Engine\Debug\det2948Engine.exe
   det2948Engine.vcxproj -> I:\Classes\DSA1\det2948Engine\Debug\det2948Engine.pdb (Partial PDB)
