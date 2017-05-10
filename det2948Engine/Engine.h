@@ -6,6 +6,7 @@
 #include "Render.h"
 #include "Physics.h"
 #include "ObjectFactory.h"
+#include "MainScene.h"
 
 static class Engine {
 public:
@@ -15,6 +16,8 @@ public:
 	static Render renderSys;
 	static Physics physicsSys;
 	static ObjectFactory OF;
+
+	static MainScene activeScene;
 
 	static bool Start();
 

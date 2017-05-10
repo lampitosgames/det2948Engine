@@ -10,6 +10,7 @@ RigidBody::RigidBody(float mass, vec3 vel) {
 }
 
 bool RigidBody::Start() {
+	netForce = vec3(0.0f, 0.0f, 0.0f);
 	return true;
 }
 
@@ -30,7 +31,7 @@ void RigidBody::Update(float dt) {
 	//TODO: Remove temp floor collision
 	if (GetTransform()->location.y < 0 && vel.y < 0) {
 		vel *= restitution;
-		GetTransform()->location.y += 0.01;
+		GetTransform()->location.y += 0.0001;
 	}
 
 	//Reset the net force

@@ -19,3 +19,7 @@ void GameObject::Start() {
 
 void GameObject::Update() {
 }
+
+void GameObject::SetActive(bool state) {
+	this->isActive = state;
+}

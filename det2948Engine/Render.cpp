@@ -8,18 +8,6 @@ bool Render::Start() {
 	Handle defaultShader = CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
 	Handle defaultTexture = CreateTexture("images/debugTexture.png");
 	defaultMaterial = CreateMaterial(defaultTexture, defaultShader);
-	//START ALL MESH RENDERS
-	for (int i = 0; i < mereCount; i++) {
-		if (!meshRenders[i].Start()) {
-			//delete the mesh render if it fails to start
-		}
-	}
-	//START ALL MATERIALS
-	for (int i = 0; i < matCount; i++) {
-		if (!materials[i].Start()) {
-			//delete the material if it fails to start
-		}
-	}
 
 	glEnable(GL_DEPTH_TEST);
 	return true;
@@ -41,6 +29,7 @@ void Render::Update(float dt) {
 		
 		//Get the object's transform6
 		GameObject* obj = meshRenders[i].GetGameObject();
+		if (!obj->isActive) { continue; }
 		Transform* curTransform = obj->GetComponent<Transform*>(pType::TRANSFORM);
 		if (curTransform == nullptr) { continue; }
 
@@ -87,6 +76,13 @@ Handle Render::CreateMaterial(Handle mTexture, Handle mShader) {
 		Handle matHandle = Add(matCount - 1, pType::MATERIAL);
 		materials[matCount - 1].handle = matHandle;
 		materials[matCount - 1].index = matCount - 1;
+		if (!materials[matCount - 1].Start()) {
+			cout << "\nMaterial failed to start";
+			matCount -= 1;
+			materials.erase(materials.begin() + matCount);
+
+			return Handle();
+		}
 		return matHandle;
 	}
 	cout << "\nInvalid texture or shader handle pased to CreateMaterial";
@@ -103,6 +99,12 @@ Handle Render::CreateMeshRender(Handle meshHandle) {
 	Handle meshRenderHandle = Add(mereCount - 1, pType::MESH_RENDER);
 	meshRenders[mereCount - 1].handle = meshRenderHandle;
 	meshRenders[mereCount - 1].index = mereCount - 1;
+	if (!meshRenders[mereCount - 1].Start()) {
+		cout << "\nMeshRender failed to start";
+		mereCount -= 1;
+		meshRenders.erase(meshRenders.begin() + mereCount);
+		return Handle();
+	}
 	return meshRenderHandle;
 }
 

@@ -18,42 +18,6 @@ ObjectFactory::~ObjectFactory() {
 }
 
 bool ObjectFactory::Start() {
-	//CREATE OBJECTS
-	//Create the camera
-	Engine::renderSys.curCamera = Engine::OF.CreateGameObject<Camera>("MainCamera");
-	GiveRigidBody(Engine::renderSys.curCamera, 0.0f);
-
-	Get<GameObject*>(Engine::renderSys.curCamera)->GetComponent<Transform*>(pType::TRANSFORM)->location.z = 6.0f;
-	//Create a mesh - creation order matters.  second one breaks the handle
-	sphereMesh = Engine::renderSys.CreateMesh("models/sphere.obj");
-	cubeMesh = Engine::renderSys.CreateMesh("models/box.obj");
-
-	//Create a game object
-	rotatingCube = CreateGameObject<GameObject>("rotating cube");
-	sphereObj = CreateGameObject<BouncingBall>("sphere");
-	//Give the sphere object a mesh renderer
-	GiveMeshRenderer(sphereObj, sphereMesh);
-	GiveMeshRenderer(rotatingCube, cubeMesh);
-
-	Handle shader = Engine::renderSys.CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
-	Handle texture = Engine::renderSys.CreateTexture("images/metal.png");
-	Handle materialHandle = Engine::renderSys.CreateMaterial(texture, shader);
-
-	GiveMaterial(rotatingCube, materialHandle);
-
-	Transform* cubeTransform = Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM);
-	cubeTransform->scale.x = 5.0f;
-	cubeTransform->scale.z = 5.0f;
-	cubeTransform->location.y = -2.0f;
-
-	GiveRigidBody(sphereObj, 3.0f);
-	Get<BouncingBall*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.y = 30.0f;
-	Get<BouncingBall*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
-	Get<BouncingBall*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasDrag = true;
-
-	for (int i = 0; i < goCount; i++) {
-		gameObjects[i]->Start();
-	}
 	return true;
 }
 
@@ -74,29 +38,12 @@ Handle ObjectFactory::Add(int pointerIndex, pType type) {
 	return resourceManager.Add(pointerIndex, type);
 }
 
-template<typename T>
-Handle ObjectFactory::CreateGameObject(string tag) {
-	T* object = new T();
-	//Create the game object
-	gameObjects.push_back(object);
-	goCount += 1;
-	//Get a handle for it
-	Handle objectHandle = Add(goCount - 1, pType::GAME_OBJECT);
-	//Pass it's own handle and the object tag to the game object
-	object->handle = objectHandle;
-	object->index = goCount - 1;
-	object->tag = tag;
-	//Give game object a transform (All game objects need one)
-	GiveTransform(objectHandle);
-	return objectHandle;
-}
-
 /*
 
 ADD COMPONENTS
 
 */
-bool ObjectFactory::GiveTransform(Handle objHandle, vec3 position = vec3(0.0f, 0.0f, 0.0f), vec3 rotation = vec3(0.0f, 0.0f, 0.0f), vec3 scale = vec3(1.0f, 1.0f, 1.0f)) {
+bool ObjectFactory::GiveTransform(Handle objHandle, vec3 position, vec3 rotation, vec3 scale) {
 	GameObject* obj = Get<GameObject*>(objHandle);
 	if (obj != nullptr) {
 		//Game object does not have a transform

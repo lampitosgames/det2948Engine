@@ -10,7 +10,7 @@ uniform vec3 lightPos;
 uniform sampler2D myTexture;
 
 void main() {
-	vec3 N = outNormal;
+	vec3 N = normalize(outNormal);
 	vec3 L = normalize(lightPos - fragPos);
 	vec3 V = normalize(camPos - fragPos);
 	vec3 H = normalize(V+L);

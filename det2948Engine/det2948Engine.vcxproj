@@ -128,6 +128,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HandleManager.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="MainScene.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRender.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -152,6 +154,7 @@
     <ClInclude Include="HandledObject.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="MainScene.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRender.h" />
@@ -160,6 +163,7 @@
     <ClInclude Include="pType.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Texture.h" />

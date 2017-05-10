@@ -43,6 +43,12 @@
     <Filter Include="Source Files\GameObjects">
       <UniqueIdentifier>{d6078380-3269-4677-acf6-e0ef1828d2ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Systems\Scenes">
+      <UniqueIdentifier>{756a2dbc-7cf3-439e-b0f6-3705af5f3d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems\Scenes">
+      <UniqueIdentifier>{1c85caf3-4686-47b2-8117-2d5abb03b335}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
@@ -101,6 +107,12 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>Source Files\Systems\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="BouncingBallObj.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>Header Files\Systems\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

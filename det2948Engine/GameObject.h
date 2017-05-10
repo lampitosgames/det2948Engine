@@ -13,6 +13,7 @@ class GameObject : public HandledObject {
 public:
 	Handle components[numpTypes];
 	string tag;
+	bool isActive = false;
 
 	GameObject();
 	virtual ~GameObject();
@@ -22,6 +23,7 @@ public:
 
 	virtual void Start();
 	virtual void Update();
+	void SetActive(bool state);
 };
 
 template<typename T>

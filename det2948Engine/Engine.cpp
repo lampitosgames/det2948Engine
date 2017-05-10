@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Handle.h"
+#include "MainScene.h"
 #include <map>
 #include <iostream>
 #include <GL\glew.h>	// The order
@@ -13,6 +14,8 @@ Window Engine::windowSys = Window();
 Render Engine::renderSys = Render();
 Physics Engine::physicsSys = Physics();
 ObjectFactory Engine::OF = ObjectFactory();
+
+MainScene Engine::activeScene = MainScene();
 
 bool Engine::Start() {
 	if (!Engine::windowSys.Start()) {
@@ -40,6 +43,11 @@ bool Engine::Start() {
 		return false;
 	}
 
+	if (!Engine::activeScene.Start()) {
+		cout << "\nScene failed to start";
+		return false;
+	}
+
 	return true;
 }
 
@@ -50,6 +58,8 @@ void Engine::Update(float dt) {
 	Engine::renderSys.Update(dt);
 	Engine::physicsSys.Update(dt);
 	Engine::OF.Update(dt);
+
+	Engine::activeScene.Update(dt);
 
 	if (Input::KeyUp(GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(Engine::windowSys.window, GLFW_TRUE);
