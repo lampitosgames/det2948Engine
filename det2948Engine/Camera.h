@@ -24,4 +24,5 @@ public:
 	Camera();
 	void Start();
 	void Update();
+	void HandleInput();
 };

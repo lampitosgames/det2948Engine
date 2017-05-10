@@ -5,6 +5,7 @@
 #include "pType.h"
 #include "Handle.h"
 #include "HandledObject.h"
+#include "Engine.h"
 
 using namespace std;
 

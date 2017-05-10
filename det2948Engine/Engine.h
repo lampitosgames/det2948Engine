@@ -2,11 +2,10 @@
 #include <vector>
 #include "Timer.h"
 #include "Window.h"
+#include "Input.h"
 #include "Render.h"
 #include "Physics.h"
 #include "ObjectFactory.h"
-
-#include "Camera.h" //TODO: Remove this include and move the handleCameraInput function to somewhere else
 
 static class Engine {
 public:
@@ -21,7 +20,4 @@ public:
 
 	static void GameLoop();
 	static void Update(float dt);
-
-	//TEMP
-	static void HandleCameraInput();
 };

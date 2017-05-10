@@ -1,4 +1,6 @@
 #include "RigidBody.h"
+#include "Transform.h"
+#include "GameObject.h"
 #include "Engine.h"
 
 RigidBody::RigidBody(float mass, vec3 vel) {

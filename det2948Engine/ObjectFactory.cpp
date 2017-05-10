@@ -1,6 +1,8 @@
 #include "ObjectFactory.h"
-#include "Engine.h"
 #include "Camera.h"
+#include "BouncingBallObj.h"
+#include "Engine.h"
+#include "GameObject.h"
 #include "Transform.h"
 #include "MeshRender.h"
 #include "RigidBody.h"
@@ -27,21 +29,20 @@ bool ObjectFactory::Start() {
 
 	//Create a game object
 	rotatingCube = CreateGameObject<GameObject>("rotating cube");
-	sphereObj = CreateGameObject<GameObject>("sphere");
+	sphereObj = CreateGameObject<BouncingBall>("sphere");
 	//Give the sphere object a mesh renderer
 	GiveMeshRenderer(sphereObj, sphereMesh);
 	GiveMeshRenderer(rotatingCube, cubeMesh);
 
 	Transform* cubeTransform = Get<GameObject*>(rotatingCube)->GetComponent<Transform*>(pType::TRANSFORM);
-	cubeTransform->scale.y = 0.1f;
 	cubeTransform->scale.x = 5.0f;
 	cubeTransform->scale.z = 5.0f;
-	cubeTransform->location.y = -1.0f;
+	cubeTransform->location.y = -1.5f;
 
-	GiveRigidBody(sphereObj, 0.6f);
-	Get<GameObject*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.y = 30.0f;
-	Get<GameObject*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
-	Get<GameObject*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasDrag = true;
+	GiveRigidBody(sphereObj, 3.0f);
+	Get<BouncingBall*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location.y = 30.0f;
+	Get<BouncingBall*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
+	Get<BouncingBall*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasDrag = true;
 
 	for (int i = 0; i < goCount; i++) {
 		gameObjects[i]->Start();

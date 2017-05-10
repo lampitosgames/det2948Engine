@@ -1,11 +1,12 @@
 #pragma once
+class GameObject;
 #include <vector>
 #include <string>
+#include <iostream>
 #include "System.h"
 #include "pType.h"
 #include "Handle.h"
 #include "HandleManager.h"
-#include "GameObject.h"
 #include <glm\glm.hpp>
 
 using namespace std;

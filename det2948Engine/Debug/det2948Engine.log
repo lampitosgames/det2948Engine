@@ -1,7 +1,8 @@
 ﻿  ObjectFactory.cpp
+i:\classes\dsa1\det2948engine\det2948engine\input.h(18): warning C4091: 'static ': ignored on left of 'Input' when no variable is declared
+i:\classes\dsa1\det2948engine\det2948engine\engine.h(23): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
 i:\classes\dsa1\det2948engine\det2948engine\camera.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-i:\classes\dsa1\det2948engine\det2948engine\engine.h(27): warning C4091: 'static ': ignored on left of 'Engine' when no variable is declared
-i:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(71): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
-  i:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(20): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
+i:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(72): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
+  i:\classes\dsa1\det2948engine\det2948engine\objectfactory.cpp(22): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
   det2948Engine.vcxproj -> I:\Classes\DSA1\det2948Engine\Debug\det2948Engine.exe
   det2948Engine.vcxproj -> I:\Classes\DSA1\det2948Engine\Debug\det2948Engine.pdb (Partial PDB)
