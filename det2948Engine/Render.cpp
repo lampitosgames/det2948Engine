@@ -5,9 +5,8 @@
 #include "Engine.h"
 
 bool Render::Start() {
-	Handle defaultShader = CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
-	Handle defaultTexture = CreateTexture("images/debugTexture.png");
-	defaultMaterial = CreateMaterial(defaultTexture, defaultShader);
+	Handle defaultShader = CreateShader("shaders/vPhongColor.glsl", "shaders/fPhongColor.glsl");
+	defaultMaterial = CreateMaterial(defaultShader);
 
 	glEnable(GL_DEPTH_TEST);
 	return true;
@@ -33,8 +32,6 @@ void Render::Update(float dt) {
 		Transform* curTransform = obj->GetComponent<Transform*>(pType::TRANSFORM);
 		if (curTransform == nullptr) { continue; }
 
-		materials;
-
 		//Get the object's material (or the default)
 		Material* curMat = obj->GetComponent<Material*>(pType::MATERIAL);
 		if (curMat == nullptr) {
@@ -46,9 +43,13 @@ void Render::Update(float dt) {
 		camPtr->Update();
 		curMat->GetShader()->applyCameraMatrix(&camPtr->camMatrix);
 		curMat->GetShader()->applyModelMatrix(&curTransform->modelMatrix());
-		curMat->GetShader()->applyLightInfo(glm::vec3(1.2f, 1.0f, 2.0f), camPtr->GetComponent<Transform*>(pType::TRANSFORM)->location);
+		curMat->GetShader()->applyLightInfo(glm::vec3(1.2f, 1.0f, 2.0f), camPtr->GetComponent<Transform*>(pType::TRANSFORM)->location, curMat->specularMultiplier, curMat->ambientIntensity);
 
-		curMat->GetTexture()->use();
+		if (curMat->matType == matType::TEXTURE_MAT) {
+			curMat->GetTexture()->use();
+		} else if (curMat->matType == matType::COLOR_MAT) {
+			curMat->GetShader()->applyColor(curMat->GetColor());
+		}
 
 		//Render
 		curMesh->Render();
@@ -86,6 +87,26 @@ Handle Render::CreateMaterial(Handle mTexture, Handle mShader) {
 		return matHandle;
 	}
 	cout << "\nInvalid texture or shader handle pased to CreateMaterial";
+	return Handle();
+}
+
+Handle Render::CreateMaterial(Handle mShader, vec3 color) {
+	if (mShader != Handle()) {
+		materials.push_back(Material(mShader, color));
+		matCount += 1;
+		Handle matHandle = Add(matCount - 1, pType::MATERIAL);
+		materials[matCount - 1].handle = matHandle;
+		materials[matCount - 1].index = matCount - 1;
+		if (!materials[matCount - 1].Start()) {
+			cout << "\nMaterial failed to start";
+			matCount -= 1;
+			materials.erase(materials.begin() + matCount);
+
+			return Handle();
+		}
+		return matHandle;
+	}
+	cout << "\nInvalid shader handle pased to CreateMaterial";
 	return Handle();
 }
 

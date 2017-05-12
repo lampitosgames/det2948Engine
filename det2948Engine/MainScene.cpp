@@ -37,9 +37,10 @@ bool MainScene::Start() {
 	OF->GiveMeshRenderer(sphereObj, sphereMesh);
 	OF->GiveMeshRenderer(rotatingCube, cubeMesh);
 
-	Handle shader = RS->CreateShader("shaders/vPhong.glsl", "shaders/fPhong.glsl");
-	Handle texture = RS->CreateTexture("images/metal.png");
-	Handle materialHandle = RS->CreateMaterial(texture, shader);
+	Handle shader = RS->CreateShader("shaders/vPhong.glsl", "shaders/fPhongColor.glsl");
+	//Handle texture = RS->CreateTexture("images/metal.png");
+	Handle materialHandle = RS->CreateMaterial(shader, vec3(1.0f, 0.0f, 0.0f));
+	OF->Get<Material*>(materialHandle)->SetSpecular(8.0f);
 
 	OF->GiveMaterial(rotatingCube, materialHandle);
 

@@ -27,8 +27,9 @@ public:
 	bool compile(GLenum shaderType);
 	//Give the shader new matrices to use
 	void applyCameraMatrix(mat4* cameraMatrix);
-	void applyLightInfo(vec3 lightLocation, vec3 camLocation);
+	void applyLightInfo(vec3 lightLocation, vec3 camLocation, float specularMultiplier = 16.0f, float ambientIntensity = 0.2f);
 	void applyModelMatrix(mat4* modelMatrix);
+	void applyColor(vec3 color);
 	//calls glUseProgram(program).  a simple function wrapper
 	void use();
 	//Unloads and deallocates this shader's memory on the graphics card.

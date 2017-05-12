@@ -42,6 +42,7 @@ public:
 	
 	*/
 	Handle CreateMaterial(Handle mTexture, Handle mShader);
+	Handle CreateMaterial(Handle mShader, vec3 color = vec3(1.0f, 1.0f, 1.0f));
 	Handle CreateMeshRender(Handle meshHandle);
 
 	/*

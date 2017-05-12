@@ -129,7 +129,7 @@ void Shader::applyCameraMatrix(glm::mat4 * cameraMatrix) {
 	glUniformMatrix4fv(camMatrix, 1, GL_FALSE, glm::value_ptr(*cameraMatrix));
 }
 
-void Shader::applyLightInfo(glm::vec3 lightLocation, glm::vec3 camLocation) {
+void Shader::applyLightInfo(glm::vec3 lightLocation, glm::vec3 camLocation, float specularMultiplier, float ambientIntensity) {
 	//Upload light location
 	GLint lightPos = glGetUniformLocation(this->program, "lightPos");
 	glUniform3f(lightPos, lightLocation.x, lightLocation.y, lightLocation.z);
@@ -137,12 +137,24 @@ void Shader::applyLightInfo(glm::vec3 lightLocation, glm::vec3 camLocation) {
 	//Upload cam location
 	GLint camPos = glGetUniformLocation(this->program, "camPos");
 	glUniform3f(camPos, camLocation.x, camLocation.y, camLocation.z);
+
+	//Upload specular multiplier
+	GLint specMultPos = glGetUniformLocation(this->program, "specularMultiplier");
+	glUniform1f(specMultPos, specularMultiplier);
+	//Upload ambient intensity
+	GLint ambIntPos = glGetUniformLocation(this->program, "ambientIntensity");
+	glUniform1f(ambIntPos, ambientIntensity);
 }
 
 void Shader::applyModelMatrix(glm::mat4 * modelMatrix) {
 	//Upload camera matrix
 	GLint camMatrix = glGetUniformLocation(this->program, "modelMatrix");
 	glUniformMatrix4fv(camMatrix, 1, GL_FALSE, glm::value_ptr(*modelMatrix));
+}
+
+void Shader::applyColor(vec3 color) {
+	GLint lightLoc = glGetUniformLocation(this->program, "matColor");
+	glUniform3f(lightLoc, color.x, color.y, color.z);
 }
 
 void Shader::use() {
