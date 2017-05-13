@@ -3,10 +3,11 @@
 #include "GameObject.h"
 #include "Engine.h"
 
-RigidBody::RigidBody(float mass, vec3 vel) {
+RigidBody::RigidBody(float mass, vec3 vel, float restitution) {
 	this->mass = mass;
 	this->vel = vel;
 	this->accel = vec3(0.0f, 0.0f, 0.0f);
+	this->restitution = restitution;
 }
 
 bool RigidBody::Start() {
@@ -29,10 +30,10 @@ void RigidBody::Update(float dt) {
 	GetTransform()->location += vel * dt;
 
 	//TODO: Remove temp floor collision
-	if (GetTransform()->location.y < 0 && vel.y < 0) {
-		vel *= restitution;
-		GetTransform()->location.y += 0.0001;
-	}
+	//if (GetTransform()->location.y < 0 && vel.y < 0) {
+	//	vel *= restitution;
+	//	GetTransform()->location.y += 0.0001;
+	//}
 
 	//Reset the net force
 	netForce = vec3(0.0f, 0.0f, 0.0f);
@@ -54,4 +55,11 @@ void RigidBody::ApplyDrag(float density) {
 
 Transform* RigidBody::GetTransform() {
 	return this->GetGameObject()->GetComponent<Transform*>(pType::TRANSFORM);
+}
+
+float RigidBody::invMass() {
+	if (mass == 0) {
+		return 0.0f;
+	}
+	return (1.0f / mass);
 }

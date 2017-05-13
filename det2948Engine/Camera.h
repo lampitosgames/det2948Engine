@@ -11,7 +11,7 @@ using namespace glm;
 class Camera : public GameObject {
 public:
 	//Perspective
-	float fov = .4 * 3.14;
+	float fov = 1.3962634f; // 80 degrees
 	float aspectRatio = 1.7777777777f;
 	float near = 0.01f;
 	float far = 1000.0f;

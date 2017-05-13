@@ -106,10 +106,10 @@ bool ObjectFactory::GiveMaterial(Handle objHandle, Handle matHandle) {
 	return false;
 }
 
-bool ObjectFactory::GiveRigidBody(Handle objHandle, float mass) {
+bool ObjectFactory::GiveRigidBody(Handle objHandle, float mass, float restitution) {
 	GameObject* obj = Get<GameObject*>(objHandle);
 	if (obj != nullptr) {
-		//Game object can't already have a mesh render
+		//Game object can't already have a rigid body
 		if (!obj->HasComponent(pType::RIGID_BODY)) {
 			//Game object must have a transform
 			if (!obj->HasComponent(pType::TRANSFORM)) {
@@ -117,12 +117,12 @@ bool ObjectFactory::GiveRigidBody(Handle objHandle, float mass) {
 				//Give a default transform if it doesn't have one
 				GiveTransform(objHandle);
 			}
-			Handle rigidBodyHandle = Engine::physicsSys.CreateRigidBody(mass);
+			Handle rigidBodyHandle = Engine::physicsSys.CreateRigidBody(mass, vec3(), restitution);
 			Get<RigidBody*>(rigidBodyHandle)->gameObject = objHandle;
 			obj->components[pType::RIGID_BODY] = rigidBodyHandle;
 			return true;
 
-		//Already has a mesh render
+		//Already has a rigid body
 		} else {
 			//Simply update the existing component's mesh
 			obj->GetComponent<RigidBody*>(pType::RIGID_BODY)->mass = mass;
@@ -131,6 +131,33 @@ bool ObjectFactory::GiveRigidBody(Handle objHandle, float mass) {
 	}
 	//Game object was null
 	cout << "\nCannot add a rigid body to an object that doesn't exist";
+	return false;
+}
+
+bool ObjectFactory::GiveSphereCollider(Handle objHandle, float radius) {
+	GameObject* obj = Get<GameObject*>(objHandle);
+	if (obj != nullptr) {
+		//Game object can't already have a mesh render
+		if (!obj->HasComponent(pType::COLLIDER)) {
+			//Game object must have a rigid body
+			if (!obj->HasComponent(pType::RIGID_BODY)) {
+				cout << "\nTrying to add sphere collider to object without rigid body. Giving object with tag " << obj->tag << " default rigid body...";
+				//Give a default rigidbody if it doesn't have one
+				GiveRigidBody(objHandle, 1.0f);
+			}
+			Handle sphereColliderHandle = Engine::physicsSys.CreateSphereCollider(radius);
+			Get<SphereCollider*>(sphereColliderHandle)->gameObject = objHandle;
+			obj->components[pType::COLLIDER] = sphereColliderHandle;
+			return true;
+
+		//Already has collider
+		} else {
+			cout << "\nError trying to add sphere collider to " << obj->tag << ".  Cannot add more than 1 collider to an object";
+			return false;
+		}
+	}
+	//Game object was null
+	cout << "\nCannot add a sphere collider to an object that doesn't exist";
 	return false;
 }
 

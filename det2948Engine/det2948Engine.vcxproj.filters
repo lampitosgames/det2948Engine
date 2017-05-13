@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Systems\Scenes">
       <UniqueIdentifier>{1c85caf3-4686-47b2-8117-2d5abb03b335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components\Colliders">
+      <UniqueIdentifier>{cdc59e59-ee5a-475b-8bb4-7f8b1f1d3078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Colliders">
+      <UniqueIdentifier>{e828a725-a401-4ac1-a38c-9218a1d826a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
@@ -113,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="MainScene.cpp">
       <Filter>Source Files\Systems\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Source Files\Components\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="MainScene.h">
       <Filter>Header Files\Systems\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Header Files\Components\Colliders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

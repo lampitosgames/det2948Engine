@@ -8,8 +8,8 @@ bool Window::Start() {
 		return false;
 	}
 	//Set screen width and height
-	this->screenWidth = 1280;
-	this->screenHeight = 720;
+	this->screenWidth = 1920;
+	this->screenHeight = 1080;
 	//Create a windowed mode window
 	//Creates a window with the parameters given.  Returns the address of the GLFWwindow struct.  Returns a nullptr if it fails to create the window
 	this->window = glfwCreateWindow(screenWidth, screenHeight, "Daniel Timko DSA1 Engine", NULL, NULL);

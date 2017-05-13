@@ -19,14 +19,14 @@ public:
 	vec3 accel;
 	float mass;
 	float cDrag = 0.5f; //Coeffecient of drag
-	float restitution = -0.5f;
+	float restitution;
 	float surfaceArea = 0.01f;
 
 	//Do global forces get applied to this object?
 	bool hasGravity = false;
 	bool hasDrag = false;
 	
-	RigidBody(float mass = 1.0f, vec3 vel = vec3(0.0f, 0.0f, 0.0f));
+	RigidBody(float mass = 1.0f, vec3 vel = vec3(0.0f, 0.0f, 0.0f), float restitution = 1.0f);
 
 	bool Start();
 	void Update(float dt);
@@ -38,7 +38,5 @@ public:
 
 	Transform* GetTransform();
 	
-	/*bool hasCollider = false;
-	Handle collider;
-	Collider* GetCollider();*/
+	float invMass();
 };

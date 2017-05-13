@@ -42,7 +42,8 @@ public:
 	bool GiveTransform(Handle objHandle, vec3 position = vec3(0.0f, 0.0f, 0.0f), vec3 rotation = vec3(0.0f, 0.0f, 0.0f), vec3 scale = vec3(1.0f, 1.0f, 1.0f));
 	bool GiveMeshRenderer(Handle objHandle, Handle meshHandle);
 	bool GiveMaterial(Handle objHandle, Handle matHandle);
-	bool GiveRigidBody(Handle objHandle, float mass);
+	bool GiveRigidBody(Handle objHandle, float mass, float restitution = 1.0f);
+	bool GiveSphereCollider(Handle objHandle, float radius);
 };
 
 template<typename T> T ObjectFactory::Get(Handle h) {
@@ -67,6 +68,8 @@ template<typename T> T ObjectFactory::Get(Handle h) {
 			return (T)&Engine::physicsSys.transforms[index];
 		case pType::RIGID_BODY:
 			return (T)&Engine::physicsSys.rigidBodies[index];
+		case pType::COLLIDER:
+			return (T)&Engine::physicsSys.colliders[index];
 		default:
 			cout << "\nInvalid handle type";
 			return nullptr;
