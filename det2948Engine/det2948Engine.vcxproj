@@ -148,7 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBCollider.h" />
-    <ClInclude Include="BouncingBallObj.h" />
+    <ClInclude Include="BouncingObj.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
@@ -178,8 +178,10 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\fShader.glsl" />
-    <None Include="shaders\vShader.glsl" />
+    <None Include="shaders\fPhong.glsl" />
+    <None Include="shaders\fPhongColor.glsl" />
+    <None Include="shaders\vPhong.glsl" />
+    <None Include="shaders\vPhongColor.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 #include "ObjectFactory.h"
 #include "Camera.h"
-#include "BouncingBallObj.h"
+#include "BouncingObj.h"
 #include "Engine.h"
 #include "GameObject.h"
 #include "Transform.h"
@@ -30,9 +30,6 @@ void ObjectFactory::Update(float dt) {
 		}
 	}
 }
-
-
-
 
 Handle ObjectFactory::Add(int pointerIndex, pType type) {
 	return resourceManager.Add(pointerIndex, type);

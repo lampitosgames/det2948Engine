@@ -200,9 +200,6 @@
     <ClInclude Include="Input.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="BouncingBallObj.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
@@ -218,9 +215,22 @@
     <ClInclude Include="AABBCollider.h">
       <Filter>Header Files\Components\Colliders</Filter>
     </ClInclude>
+    <ClInclude Include="BouncingObj.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\fShader.glsl" />
-    <None Include="shaders\vShader.glsl" />
+    <None Include="shaders\fPhong.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\fPhongColor.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\vPhong.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\vPhongColor.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

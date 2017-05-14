@@ -10,7 +10,7 @@
 
 using namespace glm;
 
-class BouncingBall : public GameObject {
+class BouncingObj : public GameObject {
 public:
 	vec3 startLoc = vec3();
 	void Start() {

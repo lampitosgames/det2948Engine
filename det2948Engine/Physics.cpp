@@ -119,43 +119,45 @@ Manifold Physics::Collide(AABBCollider* A, SphereCollider* B) {
 	Manifold m;
 	m.A = A;
 	m.B = B;
-	//Center positions
-	vec3 cA = A->pos();
-	vec3 cB = B->pos();
-	//Scale of the AABB
-	vec3 scale1 = A->scale();
-	//Radius of the sphere
-	float r2 = B->radius * B->maxScale();
+	//Box variables
+	vec3 boxPos = A->pos();
+	vec3 boxScale = A->scale();
+	float boxX = A->halfX * boxScale.x;
+	float boxY = A->halfY * boxScale.y;
+	float boxZ = A->halfZ * boxScale.z;
+	//Sphere variables
+	vec3 spherePos = B->pos();
+	float radius = B->radius * B->maxScale();
 
-	//Center to corner vector
-	vec3 ctcA = A->corner1 - cA;
-	vec3 eA = vec3(ctcA.x * scale1.x, ctcA.y * scale1.y, ctcA.z * scale1.z);
+	//Clamp the sphere's center position to the bounds of the box
+	float xClamp = clamp(spherePos.x, boxPos.x - boxX, boxPos.x + boxX);
+	float yClamp = clamp(spherePos.y, boxPos.y - boxY, boxPos.y + boxY);
+	float zClamp = clamp(spherePos.z, boxPos.z - boxZ, boxPos.z + boxZ);
+	vec3 p = vec3(xClamp, yClamp, zClamp);
 
-	//Translation vector from A to B
-	vec3 D = cB - cA;
-
-	float nearestX = max(cA.x, min(cB.x, cA.x + (A->halfX * scale1.x)));
-	float nearestY = max(cA.y, min(cB.y, cA.y + (A->halfY * scale1.y)));
-	float nearestZ = max(cA.z, min(cB.z, cA.z + (A->halfZ * scale1.z)));
-
-	//Get nearest point
-	vec3 p = vec3(nearestX, nearestY, nearestZ);
-	//Get vector from center of circle to the point on the rectangle
-	vec3 Dp = cB - p;
-
-	//If the magnitude of Dp is larger than the circle's radius, then no collision
-	if (dot(Dp, Dp) > r2 * r2) {
+	//Get vector from nearest point on the rectangle to the sphere
+	vec3 Dp = spherePos - p;
+	//If Dp is longer than the sphere's radius, there is no collision
+	if (dot(Dp, Dp) > radius * radius) {
 		m.norm = vec3();
 		return m;
-	} else {
-		m.norm = normalize(Dp);
-		if (dot(D, p - cA) < dot(p - cA, p - cA)) {
-			m.norm *= -1.0f;
-		}
-		m.penetration = r2 - length(Dp);
+	}
+	//Collision is true!
+	//Check if sphere's center is inside the rectangle.  If so, variables change
+	if (spherePos.x > boxPos.x - boxX && spherePos.x < boxPos.x + boxX &&
+		spherePos.y > boxPos.y - boxY && spherePos.y < boxPos.y + boxY &&
+		spherePos.z > boxPos.z - boxZ && spherePos.z < boxPos.z + boxZ) {
+		//Flip the normal vector
+		m.norm = -1.0f * normalize(Dp);
+		//Penetration vector is an addition now
+		m.penetration = radius + length(Dp);
 		return m;
 	}
-
+	//Set the normal vector
+	m.norm = normalize(Dp);
+	//Set the penetration vector
+	m.penetration = radius - length(Dp);
+	return m;
 }
 
 Physics::Physics() {
@@ -204,7 +206,7 @@ void Physics::Update(float dt) {
 			//If the velocities will already separate objects, do nothing
 			if (vAlongNorm > 0.0f) { continue; }
 			//Use whichever restitution is smaller
-			float e = max(rb1->restitution, rb2->restitution);
+			float e = min(rb1->restitution, rb2->restitution);
 			//Impulse
 			float j = -(1.0f + e) * vAlongNorm;
 			j /= rb1->invMass() + rb2->invMass();
