@@ -153,8 +153,8 @@ void Shader::applyModelMatrix(glm::mat4 * modelMatrix) {
 }
 
 void Shader::applyColor(vec3 color) {
-	GLint lightLoc = glGetUniformLocation(this->program, "matColor");
-	glUniform3f(lightLoc, color.x, color.y, color.z);
+	GLint colorLoc = glGetUniformLocation(this->program, "matColor");
+	glUniform3f(colorLoc, color.x, color.y, color.z);
 }
 
 void Shader::use() {

@@ -2,6 +2,13 @@
 #include "pType.h"
 #include "GameObject.h"
 
+bool Collider::Start() {
+	return true;
+}
+
+void Collider::Update(float dt) {
+}
+
 Transform* Collider::GetTransform() {
 	return this->GetGameObject()->GetComponent<Transform*>(pType::TRANSFORM);
 }

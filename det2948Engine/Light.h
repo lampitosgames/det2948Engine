@@ -5,5 +5,5 @@ using namespace glm;
 
 class Light {
 public:
-	vec3 pos = vec3(1.2f, 1.0f, 2.0f);
+	vec3 pos = vec3(1200.0f, 100.0f, 200.0f);
 };

@@ -137,7 +137,7 @@ bool ObjectFactory::GiveRigidBody(Handle objHandle, float mass, float restitutio
 bool ObjectFactory::GiveSphereCollider(Handle objHandle, float radius) {
 	GameObject* obj = Get<GameObject*>(objHandle);
 	if (obj != nullptr) {
-		//Game object can't already have a mesh render
+		//Game object can't already have a collider
 		if (!obj->HasComponent(pType::COLLIDER)) {
 			//Game object must have a rigid body
 			if (!obj->HasComponent(pType::RIGID_BODY)) {
@@ -158,6 +158,39 @@ bool ObjectFactory::GiveSphereCollider(Handle objHandle, float radius) {
 	}
 	//Game object was null
 	cout << "\nCannot add a sphere collider to an object that doesn't exist";
+	return false;
+}
+
+bool ObjectFactory::GiveAABBCollider(Handle objHandle, vec3 corner1, vec3 corner2) {
+	//Wrapper function
+	return GiveAABBCollider(objHandle, abs(corner1.x - corner2.x), abs(corner1.y - corner2.y), abs(corner1.z - corner2.z));
+}
+
+bool ObjectFactory::GiveAABBCollider(Handle objHandle, float xSize, float ySize, float zSize) {
+	GameObject* obj = Get<GameObject*>(objHandle);
+	if (obj != nullptr) {
+		//Game object can't already have a collider
+		if (!obj->HasComponent(pType::COLLIDER)) {
+			//Game object must have a rigid body
+			if (!obj->HasComponent(pType::RIGID_BODY)) {
+				cout << "\nTrying to add AABB collider to object without rigid body. Giving object with tag " << obj->tag << " default rigid body...";
+				//Give a default rigidbody if it doesn't have one
+				GiveRigidBody(objHandle, 1.0f);
+			}
+			vec3 centerPos = obj->GetComponent<Transform*>(pType::TRANSFORM)->location;
+			Handle aabbColliderHandle = Engine::physicsSys.CreateAABBCollider(centerPos, xSize, ySize, zSize);
+			Get<AABBCollider*>(aabbColliderHandle)->gameObject = objHandle;
+			obj->components[pType::COLLIDER] = aabbColliderHandle;
+			return true;
+
+		//Already has collider
+		} else {
+			cout << "\nError trying to add AABB collider to " << obj->tag << ".  Cannot add more than 1 collider to an object";
+			return false;
+		}
+	}
+	//Game object was null
+	cout << "\nCannot add an AABB collider to an object that doesn't exist";
 	return false;
 }
 

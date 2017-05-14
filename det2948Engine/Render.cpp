@@ -43,7 +43,7 @@ void Render::Update(float dt) {
 		camPtr->Update();
 		curMat->GetShader()->applyCameraMatrix(&camPtr->camMatrix);
 		curMat->GetShader()->applyModelMatrix(&curTransform->modelMatrix());
-		curMat->GetShader()->applyLightInfo(glm::vec3(1.2f, 1.0f, 2.0f), camPtr->GetComponent<Transform*>(pType::TRANSFORM)->location, curMat->specularMultiplier, curMat->ambientIntensity);
+		curMat->GetShader()->applyLightInfo(glm::vec3(120.0f, 100.0f, 200.0f), camPtr->GetComponent<Transform*>(pType::TRANSFORM)->location, curMat->specularMultiplier, curMat->ambientIntensity);
 
 		if (curMat->matType == matType::TEXTURE_MAT) {
 			curMat->GetTexture()->use();

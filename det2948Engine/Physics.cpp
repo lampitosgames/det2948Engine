@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "GameObject.h"
 
+//SPHERE VS SPHERE
 Manifold Physics::Collide(SphereCollider* A, SphereCollider* B) {
 	Manifold m;
 	//Sphere collision
@@ -38,6 +39,134 @@ Manifold Physics::Collide(SphereCollider* A, SphereCollider* B) {
 	return m;
 }
 
+//AABB VS AABB
+Manifold Physics::Collide(AABBCollider* A, AABBCollider* B) {
+	Manifold m;
+	m.A = A;
+	m.B = B;
+	vec3 p1 = A->pos();
+	vec3 p2 = B->pos();
+	vec3 scale1 = A->scale();
+	vec3 scale2 = B->scale();
+
+	//Center to corner vectors
+	vec3 ctcA = A->corner1 - p1;
+	vec3 ctcB = B->corner1 - p2;
+	//Scaled ctc vectors
+	vec3 eA = vec3(abs(ctcA.x * scale1.x), abs(ctcA.y * scale1.y), abs(ctcA.z * scale1.z));
+	vec3 eB = vec3(abs(ctcB.x * scale2.x), abs(ctcB.y * scale2.y), abs(ctcB.z * scale2.z));
+
+	//Vector from A to B
+	vec3 t = p2 - p1;
+
+	/*
+	If the components overlap on the axis, the boxes are colliding on it
+	
+	components - _________eA.x     ______________eB.x
+	axis       - ________________________________t.x
+	
+	If collision is true on all 3 axes, the boxes are colliding
+	*/
+	//Check x axis
+	if (abs(t.x) < eA.x + eB.x) {
+		//Overlap is calculated by adding the components together and then subtracting the box offset (which will always be less if collision is true)
+		float xOverlap = eA.x + eB.x - abs(t.x);
+		//Check y axis
+		if (abs(t.y) < eA.y + eB.y) {
+			float yOverlap = eA.y + eB.y - abs(t.y);
+			//Check z axis (if true, collision is happening)
+			if (abs(t.z) < eA.z + eB.z) {
+				float zOverlap = eA.z + eB.z - abs(t.z);
+				//Find the largest overlap
+				//Is x smaller than both?
+				if (xOverlap < yOverlap && xOverlap < zOverlap) {
+					m.penetration = xOverlap;
+					if (t.x < 0) {
+						m.norm = vec3(-1.0f, 0.0f, 0.0f);
+					} else {
+						m.norm = vec3(1.0f, 0.0f, 0.0f);
+					}
+					return m;
+				//Either y or z is smallest
+				} else if (yOverlap < zOverlap) {
+					m.penetration = yOverlap;
+					if (t.y < 0) {
+						m.norm = vec3(0.0f, -1.0f, 0.0f);
+					} else {
+						m.norm = vec3(0.0f, 1.0f, 0.0f);
+					}
+					return m;
+				//zOverlap is the smallest
+				} else {
+					m.penetration = zOverlap;
+					if (t.z < 0) {
+						m.norm = vec3(0.0f, 0.0f, -1.0f);
+					} else {
+						m.norm = vec3(0.0f, 0.0f, 1.0f);
+					}
+					return m;
+				}
+			}
+		}
+	}
+	//If any axis check proves negative (no overlap), there is no overlap
+	m.norm = vec3();
+	return m;
+}
+
+//AABB VS SPHERE
+Manifold Physics::Collide(AABBCollider* A, SphereCollider* B) {
+	Manifold m;
+	m.A = A;
+	m.B = B;
+	//Center positions
+	vec3 cA = A->pos();
+	vec3 cB = B->pos();
+	//Scale of the AABB
+	vec3 scale1 = A->scale();
+	//Radius of the sphere
+	float r2 = B->radius * B->maxScale();
+
+	//Center to corner vector
+	vec3 ctcA = A->corner1 - cA;
+	vec3 eA = vec3(ctcA.x * scale1.x, ctcA.y * scale1.y, ctcA.z * scale1.z);
+
+	//Translation vector from A to B
+	vec3 D = cB - cA;
+
+	float nearestX = max(cA.x, min(cB.x, cA.x + (A->halfX * scale1.x)));
+	float nearestY = max(cA.y, min(cB.y, cA.y + (A->halfY * scale1.y)));
+	float nearestZ = max(cA.z, min(cB.z, cA.z + (A->halfZ * scale1.z)));
+
+	//Get nearest point
+	vec3 p = vec3(nearestX, nearestY, nearestZ);
+	//Get vector from center of circle to the point on the rectangle
+	vec3 Dp = cB - p;
+
+	//If the magnitude of Dp is larger than the circle's radius, then no collision
+	if (dot(Dp, Dp) > r2 * r2) {
+		m.norm = vec3();
+		return m;
+	} else {
+		m.norm = normalize(Dp);
+		if (dot(D, p - cA) < dot(p - cA, p - cA)) {
+			m.norm *= -1.0f;
+		}
+		m.penetration = r2 - length(Dp);
+		return m;
+	}
+
+}
+
+Physics::Physics() {
+}
+
+Physics::~Physics() {
+	for (int i = 0; i < colCount; i++) {
+		delete colliders[i];
+	}
+}
+
 bool Physics::Start() {
 	return true;
 }
@@ -58,9 +187,10 @@ void Physics::Update(float dt) {
 	}
 	//Resolve collisions
 	for (int i = 0; i < colCount; i++) {
+		colliders[i]->Update(dt);
 		for (int k = i; k < colCount; k++) {
 			if (k == i) { continue; }
-			Manifold m = Collide(&colliders[i], &colliders[k]);
+			Manifold m = Collide(colliders[i], colliders[k]);
 			if (length(m.norm) < 1.0f) { continue; }
 
 			//Get both rigid bodies
@@ -74,7 +204,7 @@ void Physics::Update(float dt) {
 			//If the velocities will already separate objects, do nothing
 			if (vAlongNorm > 0.0f) { continue; }
 			//Use whichever restitution is smaller
-			float e = min(rb1->restitution, rb2->restitution);
+			float e = max(rb1->restitution, rb2->restitution);
 			//Impulse
 			float j = -(1.0f + e) * vAlongNorm;
 			j /= rb1->invMass() + rb2->invMass();
@@ -97,15 +227,33 @@ Handle Physics::Add(int indexPointer, pType type) {
 	return Engine::OF.Add(indexPointer, type);
 }
 
-//Manifold Physics::Collide(Collider* A, Collider* B) {
-//	if (A->type == colType::SPHERE_COL && B->type == colType::SPHERE_COL) {
-//		return Collide((SphereCollider*) A, (SphereCollider*) B);
-//	} else {
-//		Manifold m;
-//		m.norm = vec3();
-//		return m;
-//	}
-//}
+Manifold Physics::Collide(Collider* A, Collider* B) {
+	if (A->GetRigidBody()->mass == 0 && B->GetRigidBody()->mass == 0) {
+		Manifold m;
+		m.norm = vec3();
+		return m;
+	}
+
+	//Both colliders are sphere colliders
+	if (A->type == colType::SPHERE_COL && B->type == colType::SPHERE_COL) {
+		return Collide((SphereCollider*)A, (SphereCollider*)B);
+	//Both colliders are AABB colliders
+	} else if (A->type == colType::AABB_COL && B->type == colType::AABB_COL) {
+		return Collide((AABBCollider*)A, (AABBCollider*)B);
+	//Collider 'A' is an AABB collider and collider 'B' is a sphere collider
+	} else if (A->type == colType::AABB_COL && B->type == colType::SPHERE_COL) {
+		return Collide((AABBCollider*)A, (SphereCollider*)B);
+	//Collider 'A' is a sphere collider and collider 'B' is an AABB collider
+	} else if (A->type == colType::SPHERE_COL && B->type == colType::AABB_COL) {
+		return Collide((AABBCollider*)B, (SphereCollider*)A);
+
+	//Collision types are not properly handled
+	} else {
+		Manifold m;
+		m.norm = vec3();
+		return m;
+	}
+}
 
 template<typename T>
 inline T Physics::Get(Handle h) {
@@ -138,12 +286,28 @@ Handle Physics::CreateRigidBody(float mass, vec3 vel, float restitution) {
 }
 
 Handle Physics::CreateSphereCollider(float radius) {
-	//SphereCollider* col = &SphereCollider(radius);
-	colliders.push_back(SphereCollider(radius));
+	SphereCollider* col = new SphereCollider(radius);
+	colliders.push_back(col);
 	colCount += 1;
 	Handle sphereColliderHandle = Add(colCount - 1, pType::COLLIDER);
-	colliders[colCount - 1].handle = sphereColliderHandle;
-	colliders[colCount - 1].index = rbCount - 1;
-	colliders[colCount - 1].Start();
+	col->handle = sphereColliderHandle;
+	col->index = colCount - 1;
+	col->Start();
 	return sphereColliderHandle;
+}
+
+Handle Physics::CreateAABBCollider(vec3 center, vec3 corner1, vec3 corner2) {
+	//This is a wrapper function
+	return CreateAABBCollider(center, abs(corner1.x - corner2.x), abs(corner1.y - corner2.y), abs(corner1.z - corner2.z));
+}
+
+Handle Physics::CreateAABBCollider(vec3 center, float xSize, float ySize, float zSize) {
+	AABBCollider* col = new AABBCollider(center, xSize, ySize, zSize);
+	colliders.push_back(col);
+	colCount += 1;
+	Handle aabbColliderHandle = Add(colCount - 1, pType::COLLIDER);
+	col->handle = aabbColliderHandle;
+	col->index = colCount - 1;
+	col->Start();
+	return aabbColliderHandle;
 }

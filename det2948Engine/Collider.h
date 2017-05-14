@@ -12,8 +12,8 @@ enum colType {
 class Collider : public Component {
 public:
 	colType type;
-	virtual bool Start() = 0;
-	virtual void Update(float dt) = 0;
+	virtual bool Start();
+	virtual void Update(float dt);
 
 	Transform* GetTransform();
 	RigidBody* GetRigidBody();
