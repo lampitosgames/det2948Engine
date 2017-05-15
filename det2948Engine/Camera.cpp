@@ -2,11 +2,16 @@
 #include "Input.h"
 #include "Transform.h"
 #include "RigidBody.h"
+#include "BouncingObj.h"
+#include "Engine.h"
 
 Camera::Camera() {
 }
 
 void Camera::Start() {
+	ballMesh = Engine::renderSys.CreateMesh("models/sphere.obj");
+	Handle colorShader = Engine::renderSys.CreateShader("shaders/vPhongColor.glsl", "shaders/fPhongColor.glsl");
+	ballMat = Engine::renderSys.CreateMaterial(colorShader, vec3(0.937254f, 0.137254f, 0.235294f));
 }
 
 void Camera::Update() {
@@ -30,6 +35,9 @@ void Camera::Update() {
 
 	HandleInput();
 
+	if (Input::KeyUp(GLFW_MOUSE_BUTTON_1)) {
+		ShootSphere();
+	}
 }
 
 void Camera::HandleInput() {
@@ -46,10 +54,7 @@ void Camera::HandleInput() {
 	(*cr).y -= hSens * mPos.x; //yaw
 	(*cr).x -= vSens * mPos.y; //pitch
 
-							   //Keyboard input
-	glm::vec3 vel = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 jumpVel = glm::vec3(0.0f, 0.0f, 0.0f);
-	float speed = 7.0f;
+	float speed = 40.0f;
 
 	if (Input::Key(GLFW_KEY_D)) {
 		rigid->ApplyForce((glm::mat3)yawPitchRoll(cr->y, 0.0f, 0.0f) * glm::vec3(1.0f, 0.0f, 0.0f) * speed);
@@ -64,13 +69,34 @@ void Camera::HandleInput() {
 		rigid->ApplyForce((glm::mat3)yawPitchRoll(cr->y, 0.0f, 0.0f) * glm::vec3(0.0f, 0.0f, 1.0f) * speed);
 	}
 	if (Input::KeyDown(GLFW_KEY_SPACE)) {
-		rigid->ApplyForce(glm::vec3(0.0f, 120.0f, 0.0f));
+		rigid->ApplyForce(glm::vec3(0.0f, 750.0f, 0.0f));
 	}
+
 	//Set drag on the ground
 	//Don't apply negative vertical force
-	glm::vec3 negForce = -0.7f * rigid->vel;
+	glm::vec3 negForce = -4.0f * rigid->mass * rigid->vel;
 	negForce.y = 0.0f;
 	rigid->ApplyForce(negForce);
 	//Give this object more gravity
-	rigid->ApplyForce(rigid->mass * vec3(0.0f, -4.0f, 0.0f));
+	rigid->ApplyForce(vec3(0.0f, -4.0f, 0.0f));
+}
+
+void Camera::ShootSphere() {
+	Handle bullet = Engine::OF.CreateGameObject<BouncingObj>("bullet");
+	Engine::OF.GiveMaterial(bullet, ballMat);
+	Engine::OF.GiveRigidBody(bullet, 1.0f, 0.5f);
+	Engine::OF.GiveMeshRenderer(bullet, ballMesh);
+	Engine::OF.GiveSphereCollider(bullet, 1.0f);
+	BouncingObj* obj = Engine::OF.Get<BouncingObj*>(bullet);
+	Transform* trans = obj->GetComponent<Transform*>(pType::TRANSFORM);
+	RigidBody* rigid = obj->GetComponent<RigidBody*>(pType::RIGID_BODY);
+	Transform* thisTrans = this->GetComponent<Transform*>(pType::TRANSFORM);
+	RigidBody* thisRigid = this->GetComponent<RigidBody*>(pType::RIGID_BODY);
+
+	trans->location = thisTrans->location + (thisTrans->Forward() * -2.0f);
+	trans->scale = vec3(0.5f, 0.5f, 0.5f);
+	rigid->hasGravity = true;
+	rigid->ApplyForce(thisTrans->Forward() * rigid->mass * -1500.0f);
+
+	obj->SetActive(true);
 }

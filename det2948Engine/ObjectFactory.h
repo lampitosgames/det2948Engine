@@ -34,6 +34,9 @@ public:
 	template<typename T> Handle CreateGameObject(string tag);
 	bool DeleteGameObject(Handle objHandle);
 
+	//Specific case functions (for the final project.  In a normal game, this would go elsewhere)
+	Handle CreatePlatformObject(vec3 pos, vec3 scale, Handle mesh, Handle material);
+
 	template<typename T> T Get(Handle h);
 
 	Handle Add(int pointerIndex, pType type);

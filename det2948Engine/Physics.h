@@ -36,7 +36,7 @@ public:
 	int colCount = 0;
 
 	//Physics constants
-	vec3 gravity = vec3(0.0f, -9.81f, 0.0f);
+	vec3 gravity = vec3(0.0f, -14.81f, 0.0f);
 	float airDensity = 1.2f;
 
 	Physics();

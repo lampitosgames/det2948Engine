@@ -223,3 +223,15 @@ bool ObjectFactory::DeleteGameObject(Handle objHandle) {
 	return false;
 }
 
+Handle ObjectFactory::CreatePlatformObject(vec3 pos, vec3 scale, Handle mesh, Handle material) {
+	Handle object = CreateGameObject<GameObject>("gameobject");
+	GiveMeshRenderer(object, mesh);
+	GiveRigidBody(object, 0.0f);
+	GiveMaterial(object, material);
+	Transform* cubeTransform = Get<GameObject*>(object)->GetComponent<Transform*>(pType::TRANSFORM);
+	cubeTransform->location = pos;
+	cubeTransform->scale = scale;
+	GiveAABBCollider(object, 2.0f, 2.0f, 2.0f);
+	return object;
+}
+

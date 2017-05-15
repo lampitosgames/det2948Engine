@@ -19,9 +19,9 @@ public:
 		if (startLoc == vec3()) {
 			this->startLoc = GetComponent<Transform*>(pType::TRANSFORM)->location;
 		}
-		if (Input::KeyDown(GLFW_MOUSE_BUTTON_1)) {
+		/*if (Input::KeyDown(GLFW_MOUSE_BUTTON_1)) {
 			GetComponent<RigidBody*>(pType::RIGID_BODY)->ApplyForce(vec3(0.0f, 1000.0f, 0.0f));
-		}
+		}*/
 		if (Input::KeyDown(GLFW_KEY_N)) {
 			GetComponent<Transform*>(pType::TRANSFORM)->location = this->startLoc;
 			GetComponent<RigidBody*>(pType::RIGID_BODY)->accel = vec3();

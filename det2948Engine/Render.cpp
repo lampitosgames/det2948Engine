@@ -40,7 +40,6 @@ void Render::Update(float dt) {
 
 		curMat->GetShader()->use();
 
-		camPtr->Update();
 		curMat->GetShader()->applyCameraMatrix(&camPtr->camMatrix);
 		curMat->GetShader()->applyModelMatrix(&curTransform->modelMatrix());
 		curMat->GetShader()->applyLightInfo(glm::vec3(120.0f, 100.0f, 200.0f), camPtr->GetComponent<Transform*>(pType::TRANSFORM)->location, curMat->specularMultiplier, curMat->ambientIntensity);

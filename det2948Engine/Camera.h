@@ -21,8 +21,12 @@ public:
 	mat4 projMatrix;
 	mat4 camMatrix;
 
+	Handle ballMesh;
+	Handle ballMat;
+
 	Camera();
 	void Start();
 	void Update();
 	void HandleInput();
+	void ShootSphere();
 };
