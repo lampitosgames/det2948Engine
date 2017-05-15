@@ -29,16 +29,14 @@ void Camera::Update() {
 	this->camMatrix = this->projMatrix * this->lookAtMatrix;
 
 	HandleInput();
+
 }
 
 void Camera::HandleInput() {
 	Transform* transf = GetComponent<Transform*>(pType::TRANSFORM);
-	//Camera location vector
-	glm::vec3* cl = &(transf->location);
+	RigidBody* rigid = GetComponent<RigidBody*>(pType::RIGID_BODY);
 	//Camera rotation vector
 	glm::vec3* cr = &(transf->rotation);
-
-	glm::mat3 R = transf->rotMatrix();
 
 	//Rotation sensitivity
 	float hSens = 0.001; //Side to side
@@ -50,31 +48,29 @@ void Camera::HandleInput() {
 
 							   //Keyboard input
 	glm::vec3 vel = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 jumpVel = glm::vec3(0.0f, 0.0f, 0.0f);
+	float speed = 7.0f;
 
 	if (Input::Key(GLFW_KEY_D)) {
-		vel += R * glm::vec3(1, 0, 0);
+		rigid->ApplyForce((glm::mat3)yawPitchRoll(cr->y, 0.0f, 0.0f) * glm::vec3(1.0f, 0.0f, 0.0f) * speed);
 	}
 	if (Input::Key(GLFW_KEY_A)) {
-		vel += R * glm::vec3(-1, 0, 0);
+		rigid->ApplyForce((glm::mat3)yawPitchRoll(cr->y, 0.0f, 0.0f) * glm::vec3(-1.0f, 0.0f, 0.0f) * speed);
 	}
 	if (Input::Key(GLFW_KEY_W)) {
-		vel += R * glm::vec3(0, 0, -1);
+		rigid->ApplyForce((glm::mat3)yawPitchRoll(cr->y, 0.0f, 0.0f) * glm::vec3(0.0f, 0.0f, -1.0f) * speed);
 	}
 	if (Input::Key(GLFW_KEY_S)) {
-		vel += R * glm::vec3(0, 0, 1);
+		rigid->ApplyForce((glm::mat3)yawPitchRoll(cr->y, 0.0f, 0.0f) * glm::vec3(0.0f, 0.0f, 1.0f) * speed);
 	}
-	if (Input::Key(GLFW_KEY_R)) {
-		vel += R * glm::vec3(0, 1, 0);
+	if (Input::KeyDown(GLFW_KEY_SPACE)) {
+		rigid->ApplyForce(glm::vec3(0.0f, 120.0f, 0.0f));
 	}
-	if (Input::Key(GLFW_KEY_F)) {
-		vel += R * glm::vec3(0, -1, 0);
-	}
-
-	float speed = 4.0f;
-	if (vel != glm::vec3()) {
-		GetComponent<RigidBody*>(pType::RIGID_BODY)->vel = glm::normalize(vel) * speed;
-	}
-	else {
-		GetComponent<RigidBody*>(pType::RIGID_BODY)->vel = glm::vec3(0.0f, 0.0f, 0.0f);
-	}
+	//Set drag on the ground
+	//Don't apply negative vertical force
+	glm::vec3 negForce = -0.7f * rigid->vel;
+	negForce.y = 0.0f;
+	rigid->ApplyForce(negForce);
+	//Give this object more gravity
+	rigid->ApplyForce(rigid->mass * vec3(0.0f, -4.0f, 0.0f));
 }

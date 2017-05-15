@@ -8,7 +8,7 @@ public:
 	float xSize, ySize, zSize;
 	float halfX, halfY, halfZ;
 
-	AABBCollider(vec3 center, float xSizeIn = 1.0f, float ySizeIn = 1.0f, float zSizeIn = 1.0f);
+	AABBCollider(vec3 center, float xSizeIn = 2.0f, float ySizeIn = 2.0f, float zSizeIn = 2.0f);
 
 	bool Start();
 	void Update(float dt);

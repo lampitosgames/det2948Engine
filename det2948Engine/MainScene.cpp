@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "RigidBody.h"
 #include "BouncingObj.h"
+#include "MovableOOB.h"
 #include "ObjectFactory.h"
 
 using namespace std;
@@ -25,10 +26,11 @@ bool MainScene::Start() {
 	//CREATE OBJECTS
 	//Create the camera
 	RS->curCamera = OF->CreateGameObject<Camera>("MainCamera");
-	OF->GiveRigidBody(Engine::renderSys.curCamera, 0.0f, 0.0f);
-	OF->Get<GameObject*>(RS->curCamera)->GetComponent<Transform*>(pType::TRANSFORM)->location.z = 6.0f;
+	OF->GiveRigidBody(Engine::renderSys.curCamera, 1.0f, 0.0f);
+	OF->Get<GameObject*>(RS->curCamera)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
+	OF->Get<GameObject*>(RS->curCamera)->GetComponent<Transform*>(pType::TRANSFORM)->location.z = 7.0f;
 	objects.push_back(RS->curCamera);
-	OF->GiveAABBCollider(RS->curCamera, 2.0f, 2.0f, 2.0f);
+	OF->GiveAABBCollider(RS->curCamera, 2.0f, 3.0f, 2.0f);
 
 	//Floor
 	Handle cubeMesh = RS->CreateMesh("models/box.obj");
@@ -84,6 +86,7 @@ bool MainScene::Start() {
 	wall4trans->scale = vec3(10.0f, 4.0f, 1.0f);
 	wall4trans->location = vec3(0.0f, 2.0f, 11.0f);
 	OF->GiveAABBCollider(wall4, 2.0f, 2.0f, 2.0f);
+
 	//Static sphere
 	Handle sphereMesh = RS->CreateMesh("models/sphere.obj");
 	Handle staticSphereObj = OF->CreateGameObject<BouncingObj>("staticSphere");
@@ -117,7 +120,7 @@ bool MainScene::Start() {
 	Handle fallingCube3 = OF->CreateGameObject<BouncingObj>("fallingCube");
 	objects.push_back(fallingCube3);
 	OF->GiveMeshRenderer(fallingCube3, cubeMesh);
-	OF->GiveRigidBody(fallingCube3, 2.0f, 0.9f);
+	OF->GiveRigidBody(fallingCube3, 2.0f, 0.6f);
 	OF->Get<BouncingObj*>(fallingCube3)->GetComponent<Transform*>(pType::TRANSFORM)->location = vec3(-2.0f, 40.0f, 0.0f);
 	OF->Get<BouncingObj*>(fallingCube3)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
 	OF->Get<BouncingObj*>(fallingCube3)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasDrag = true;
@@ -128,7 +131,7 @@ bool MainScene::Start() {
 	Handle sphereObj = OF->CreateGameObject<BouncingObj>("sphere");
 	objects.push_back(sphereObj);
 	OF->GiveMeshRenderer(sphereObj, sphereMesh);
-	OF->GiveRigidBody(sphereObj, 1.0f, 0.9f);
+	OF->GiveRigidBody(sphereObj, 1.0f, 0.6f);
 	OF->Get<BouncingObj*>(sphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->location = vec3(0.05f, 20.0f, 0.01f);
 	OF->Get<BouncingObj*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
 	OF->Get<BouncingObj*>(sphereObj)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasDrag = true;

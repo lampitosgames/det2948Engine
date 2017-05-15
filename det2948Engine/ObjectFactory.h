@@ -47,6 +47,7 @@ public:
 	bool GiveSphereCollider(Handle objHandle, float radius);
 	bool GiveAABBCollider(Handle objHandle, vec3 corner1, vec3 corner2);
 	bool GiveAABBCollider(Handle objHandle, float xSize, float ySize, float zSize);
+	bool GiveOBBCollider(Handle objHandle, float xSize, float ySize, float zSize);
 };
 
 template<typename T> T ObjectFactory::Get(Handle h) {

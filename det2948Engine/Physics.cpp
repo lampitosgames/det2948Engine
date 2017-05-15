@@ -160,6 +160,73 @@ Manifold Physics::Collide(AABBCollider* A, SphereCollider* B) {
 	return m;
 }
 
+//OBB VS OBB
+Manifold Physics::Collide(OBBCollider* A, OBBCollider* B) {
+	//NOTE: I was not able to get this working
+
+	Manifold m;
+	m.A = A;
+	m.B = B;
+
+	vec3 cA = A->pos();
+	vec3 cB = B->pos();
+
+	vec3 aScale = A->scale();
+	vec3 a = vec3(A->halfX * aScale.x, A->halfY * aScale.y, A->halfZ * aScale.z);
+
+	vec3 bScale = B->scale();
+	vec3 b = vec3(B->halfX * bScale.x, B->halfY * bScale.y, B->halfZ * bScale.z);
+
+	//Rotation matrix a
+	mat3 Ra = A->rot();
+	//Rotation matrix b
+	mat3 Rb = B->rot();
+	//Translation between the two boxes
+	vec3 t = cB - cA;
+
+	vec3 L[15];
+
+	//All SAT tests will be taking place in A's local space
+	L[3] = vec3(Ra[0][0], Ra[0][1], Ra[0][2]); //x
+	L[4] = vec3(Ra[1][0], Ra[1][1], Ra[1][2]); //y
+	L[5] = vec3(Ra[2][0], Ra[2][1], Ra[2][2]); //z
+	//B's local axes in the coordinate space of A
+	L[3] = vec3(Rb[0][0], Rb[0][1], Rb[0][2]); //x
+	L[4] = vec3(Rb[1][0], Rb[1][1], Rb[1][2]); //y
+	L[5] = vec3(Rb[2][0], Rb[2][1], Rb[2][2]); //z
+	//Cross products (normals) to every combination of axes
+	L[6]  = cross(L[0], L[3]); //Ax X Bx
+	L[7]  = cross(L[0], L[4]); //Ax X By
+	L[8]  = cross(L[0], L[5]); //Ax X Bz
+	L[9]  = cross(L[1], L[3]); //Ay X Bx
+	L[10] = cross(L[1], L[4]); //Ay X By
+	L[11] = cross(L[1], L[5]); //Ay X Bz
+	L[12] = cross(L[2], L[3]); //Az X Bx
+	L[13] = cross(L[2], L[4]); //Az X By
+	L[14] = cross(L[2], L[5]); //Az X Bz
+
+	float s = 0;
+	bool collision = true;
+	for (int i = 0; i < 15; i++) {
+		s = i;
+		//s = |t * l| - (|a * l| + |(C*b)*l|)
+		if (abs(dot(t, L[i])) > abs(dot(a, L[i])) + abs(dot(b, L[i]))) {
+
+			collision = false;
+			break;
+		}
+	}
+	if (collision) {
+		cout << endl << "Collision!";
+	}
+	else {
+		m.norm = vec3();
+		return m;
+	}
+
+	return m;
+}
+
 Physics::Physics() {
 }
 
@@ -248,6 +315,9 @@ Manifold Physics::Collide(Collider* A, Collider* B) {
 	//Collider 'A' is a sphere collider and collider 'B' is an AABB collider
 	} else if (A->type == colType::SPHERE_COL && B->type == colType::AABB_COL) {
 		return Collide((AABBCollider*)B, (SphereCollider*)A);
+	//Both colliders are OBB colliders
+	} else if (A->type == colType::OBB_COL && B->type == colType::OBB_COL) {
+		return Collide((OBBCollider*)A, (OBBCollider*)B);
 
 	//Collision types are not properly handled
 	} else {
@@ -312,4 +382,15 @@ Handle Physics::CreateAABBCollider(vec3 center, float xSize, float ySize, float 
 	col->index = colCount - 1;
 	col->Start();
 	return aabbColliderHandle;
+}
+
+Handle Physics::CreateOBBCollider(float xSize, float ySize, float zSize) {
+	OBBCollider* col = new OBBCollider(xSize, ySize, zSize);
+	colliders.push_back(col);
+	colCount += 1;
+	Handle obbColliderHandle = Add(colCount - 1, pType::COLLIDER);
+	col->handle = obbColliderHandle;
+	col->index = colCount - 1;
+	col->Start();
+	return obbColliderHandle;
 }

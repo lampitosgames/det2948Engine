@@ -7,6 +7,7 @@
 #include "Collider.h"
 #include "SphereCollider.h"
 #include "AABBCollider.h"
+#include "OBBCollider.h"
 #include <glm\glm.hpp>
 
 using namespace std;
@@ -25,6 +26,7 @@ private:
 	Manifold Collide(SphereCollider* A, SphereCollider* B);
 	Manifold Collide(AABBCollider* A, AABBCollider* B);
 	Manifold Collide(AABBCollider* A, SphereCollider* B);
+	Manifold Collide(OBBCollider* A, OBBCollider* B);
 public:
 	vector<Transform> transforms;
 	int transCount = 0;
@@ -59,5 +61,7 @@ public:
 	Handle CreateSphereCollider(float radius);
 	//AABB collider
 	Handle CreateAABBCollider(vec3 center, vec3 corner1 = vec3(-0.5f, -0.5f, -0.5f), vec3 corner2 = vec3(0.5f, 0.5f, 0.5f));
-	Handle CreateAABBCollider(vec3 center, float xSize = 1.0f, float ySize = 1.0f, float zSize = 1.0f);
+	Handle CreateAABBCollider(vec3 center, float xSize = 2.0f, float ySize = 2.0f, float zSize = 2.0f);
+	//OBB Collider
+	Handle CreateOBBCollider(float xSize = 2.0f, float ySize = 2.0f, float zSize = 2.0f);
 };

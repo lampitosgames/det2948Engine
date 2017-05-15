@@ -129,6 +129,9 @@
     <ClCompile Include="AABBCollider.cpp">
       <Filter>Source Files\Components\Colliders</Filter>
     </ClCompile>
+    <ClCompile Include="OBBCollider.cpp">
+      <Filter>Source Files\Components\Colliders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Timer.h">
@@ -216,6 +219,12 @@
       <Filter>Header Files\Components\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="BouncingObj.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="OBBCollider.h">
+      <Filter>Header Files\Components\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="MovableOOB.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>

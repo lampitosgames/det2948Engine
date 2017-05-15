@@ -191,6 +191,33 @@ bool ObjectFactory::GiveAABBCollider(Handle objHandle, float xSize, float ySize,
 	return false;
 }
 
+bool ObjectFactory::GiveOBBCollider(Handle objHandle, float xSize, float ySize, float zSize) {
+	GameObject* obj = Get<GameObject*>(objHandle);
+	if (obj != nullptr) {
+		//Game object can't already have a collider
+		if (!obj->HasComponent(pType::COLLIDER)) {
+			//Game object must have a rigid body
+			if (!obj->HasComponent(pType::RIGID_BODY)) {
+				cout << "\nTrying to add OBB collider to object without rigid body. Giving object with tag " << obj->tag << " default rigid body...";
+				//Give a default rigidbody if it doesn't have one
+				GiveRigidBody(objHandle, 1.0f);
+			}
+			Handle obbColliderHandle = Engine::physicsSys.CreateOBBCollider(xSize, ySize, zSize);
+			Get<OBBCollider*>(obbColliderHandle)->gameObject = objHandle;
+			obj->components[pType::COLLIDER] = obbColliderHandle;
+			return true;
+
+		//Already has collider
+		} else {
+			cout << "\nError trying to add OBB collider to " << obj->tag << ".  Cannot add more than 1 collider to an object";
+			return false;
+		}
+	}
+	//Game object was null
+	cout << "\nCannot add an OBB collider to an object that doesn't exist";
+	return false;
+}
+
 
 bool ObjectFactory::DeleteGameObject(Handle objHandle) {
 	return false;
