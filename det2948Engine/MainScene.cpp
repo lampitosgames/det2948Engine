@@ -16,10 +16,12 @@ bool MainScene::Start() {
 	PS = &Engine::physicsSys;
 
 	Handle cubeMesh = RS->CreateMesh("models/box.obj");
+	Handle sphereMesh = RS->CreateMesh("models/sphere.obj");
 
 	Handle colorShader = RS->CreateShader("shaders/vPhongColor.glsl", "shaders/fPhongColor.glsl");
 	Handle floorMaterial = RS->CreateMaterial(colorShader, vec3(0.168627f, 0.176470f, 0.258823f));
 	Handle lightBlueMaterial = RS->CreateMaterial(colorShader, vec3(0.552941f, 0.6f, 0.682352f));
+	Handle brightBlueMaterial = RS->CreateMaterial(colorShader, vec3(0.137254f, 0.643137f, 0.768627f));
 	Handle yellowMaterial = RS->CreateMaterial(colorShader, vec3(0.976470f, 0.862745f, 0.360784f));
 
 	//CREATE OBJECTS
@@ -58,8 +60,28 @@ bool MainScene::Start() {
 	objects.push_back(OF->CreatePlatformObject(vec3(19.0f, 3.95f, 7.0f), vec3(5.0f, 3.0f, 0.5f), cubeMesh, lightBlueMaterial));
 	objects.push_back(OF->CreatePlatformObject(vec3(19.0f, 3.95f, -3.0f), vec3(5.0f, 3.0f, 0.5f), cubeMesh, lightBlueMaterial));
 
+	objects.push_back(OF->CreatePlatformObject(vec3(-25.89f, 6.0f, 16.11f), vec3(3.0f, 5.0f, 3.0f), cubeMesh, brightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(32.0f, 6.0f, 48.0f), vec3(3.0f, 5.0f, 6.0f), cubeMesh, brightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(24.0f, 7.5f, 48.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, brightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(16.0f, 4.5f, 48.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, brightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(8.0f, 1.5f, 48.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, brightBlueMaterial));
+
+	objects.push_back(OF->CreatePlatformObject(vec3(-33.0f, 10.5f, -51.0f), vec3(6.0f, 0.5f, 6.0f), cubeMesh, brightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(-33.0f, 1.5f, -24.0f), vec3(6.0f, 0.5f, 3.0f), cubeMesh, brightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(-33.0f, 4.5f, -32.0f), vec3(6.0f, 0.5f, 3.0f), cubeMesh, Handle()));
+	objects.push_back(OF->CreatePlatformObject(vec3(-33.0f, 7.5f, -40.0f), vec3(6.0f, 0.5f, 3.0f), cubeMesh, lightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(-33.0f, 7.5f, -62.0f), vec3(6.0f, 0.5f, 3.0f), cubeMesh, lightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(-33.0f, 4.5f, -70.0f), vec3(6.0f, 0.5f, 3.0f), cubeMesh, Handle()));
+	objects.push_back(OF->CreatePlatformObject(vec3(-33.0f, 1.5f, -78.0f), vec3(6.0f, 0.5f, 3.0f), cubeMesh, brightBlueMaterial));
+
+	objects.push_back(OF->CreatePlatformObject(vec3(-60.0f, 1.5f, -51.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, brightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(-52.0f, 4.5f, -51.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, Handle()));
+	objects.push_back(OF->CreatePlatformObject(vec3(-44.0f, 7.5f, -51.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, lightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(-22.0f, 7.5f, -51.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, lightBlueMaterial));
+	objects.push_back(OF->CreatePlatformObject(vec3(-14.0f, 4.5f, -51.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, Handle()));
+	objects.push_back(OF->CreatePlatformObject(vec3(-6.0f, 1.5f, -51.0f), vec3(3.0f, 0.5f, 6.0f), cubeMesh, brightBlueMaterial));
+
 	//Static sphere
-	Handle sphereMesh = RS->CreateMesh("models/sphere.obj");
 	Handle staticSphereObj = OF->CreateGameObject<BouncingObj>("staticSphere");
 	objects.push_back(staticSphereObj);
 	OF->GiveMeshRenderer(staticSphereObj, sphereMesh);
@@ -69,17 +91,53 @@ bool MainScene::Start() {
 	OF->Get<BouncingObj*>(staticSphereObj)->GetComponent<Transform*>(pType::TRANSFORM)->scale = vec3(2.0f, 2.0f, 2.0f);
 	OF->GiveSphereCollider(staticSphereObj, 1.0f);
 
-	//Falling cubes
-	Handle fallingCube = OF->CreateGameObject<BouncingObj>("fallingCube");
-	objects.push_back(fallingCube);
-	OF->GiveMeshRenderer(fallingCube, cubeMesh);
-	OF->GiveRigidBody(fallingCube, 1.0f, 0.5f);
-	OF->Get<BouncingObj*>(fallingCube)->GetComponent<Transform*>(pType::TRANSFORM)->location = vec3(0.05f, 35.0f, 0.01f);
-	OF->Get<BouncingObj*>(fallingCube)->GetComponent<Transform*>(pType::TRANSFORM)->scale = vec3(0.1f, 3.0f, 0.3f);
-	OF->Get<BouncingObj*>(fallingCube)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
-	OF->Get<BouncingObj*>(fallingCube)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasDrag = true;
-	OF->GiveAABBCollider(fallingCube, 2.0f, 2.0f, 2.0f);
+	Handle staticSphereObj0 = OF->CreateGameObject<BouncingObj>("staticSphere");
+	objects.push_back(staticSphereObj0);
+	OF->GiveMeshRenderer(staticSphereObj0, sphereMesh);
+	OF->GiveMaterial(staticSphereObj0, yellowMaterial);
+	OF->GiveRigidBody(staticSphereObj0, 0.0f, 0.5f);
+	OF->Get<BouncingObj*>(staticSphereObj0)->GetComponent<Transform*>(pType::TRANSFORM)->location = vec3(0.0f, 8.0f, 35.0f);
+	OF->Get<BouncingObj*>(staticSphereObj0)->GetComponent<Transform*>(pType::TRANSFORM)->scale = vec3(2.0f, 2.0f, 2.0f);
+	OF->GiveSphereCollider(staticSphereObj0, 1.0f);
 
+	Handle staticSphereObj1 = OF->CreateGameObject<BouncingObj>("staticSphere");
+	objects.push_back(staticSphereObj1);
+	OF->GiveMeshRenderer(staticSphereObj1, sphereMesh);
+	OF->GiveMaterial(staticSphereObj1, yellowMaterial);
+	OF->GiveRigidBody(staticSphereObj1, 0.0f, 0.5f);
+	OF->Get<BouncingObj*>(staticSphereObj1)->GetComponent<Transform*>(pType::TRANSFORM)->location = vec3(-35.0f, 8.0f, 0.0f);
+	OF->Get<BouncingObj*>(staticSphereObj1)->GetComponent<Transform*>(pType::TRANSFORM)->scale = vec3(2.0f, 2.0f, 2.0f);
+	OF->GiveSphereCollider(staticSphereObj1, 1.0f);
+
+	Handle staticSphereObj2 = OF->CreateGameObject<BouncingObj>("staticSphere");
+	objects.push_back(staticSphereObj2);
+	OF->GiveMeshRenderer(staticSphereObj2, sphereMesh);
+	OF->GiveMaterial(staticSphereObj2, yellowMaterial);
+	OF->GiveRigidBody(staticSphereObj2, 0.0f, 0.5f);
+	OF->Get<BouncingObj*>(staticSphereObj2)->GetComponent<Transform*>(pType::TRANSFORM)->location = vec3(35.0f, 8.0f, 0.0f);
+	OF->Get<BouncingObj*>(staticSphereObj2)->GetComponent<Transform*>(pType::TRANSFORM)->scale = vec3(2.0f, 2.0f, 2.0f);
+	OF->GiveSphereCollider(staticSphereObj2, 1.0f);
+
+	Handle staticSphereObj3 = OF->CreateGameObject<BouncingObj>("staticSphere");
+	objects.push_back(staticSphereObj3);
+	OF->GiveMeshRenderer(staticSphereObj3, sphereMesh);
+	OF->GiveMaterial(staticSphereObj3, yellowMaterial);
+	OF->GiveRigidBody(staticSphereObj3, 0.0f, 0.5f);
+	OF->Get<BouncingObj*>(staticSphereObj3)->GetComponent<Transform*>(pType::TRANSFORM)->location = vec3(0.0f, 8.0f, -35.0f);
+	OF->Get<BouncingObj*>(staticSphereObj3)->GetComponent<Transform*>(pType::TRANSFORM)->scale = vec3(2.0f, 2.0f, 2.0f);
+	OF->GiveSphereCollider(staticSphereObj3, 1.0f);
+
+	Handle staticSphereObj4 = OF->CreateGameObject<BouncingObj>("staticSphere");
+	objects.push_back(staticSphereObj4);
+	OF->GiveMeshRenderer(staticSphereObj4, sphereMesh);
+	OF->GiveMaterial(staticSphereObj4, yellowMaterial);
+	OF->GiveRigidBody(staticSphereObj4, 0.0f, 0.5f);
+	OF->Get<BouncingObj*>(staticSphereObj4)->GetComponent<Transform*>(pType::TRANSFORM)->location = vec3(-33.0f, 10.5f, -51.0f);
+	OF->Get<BouncingObj*>(staticSphereObj4)->GetComponent<Transform*>(pType::TRANSFORM)->scale = vec3(3.0f, 3.0f, 3.0f);
+	OF->GiveSphereCollider(staticSphereObj4, 1.0f);
+
+
+	//Initial falling objects (Just as a demo for the physics)
 	Handle fallingCube2 = OF->CreateGameObject<BouncingObj>("fallingCube");
 	objects.push_back(fallingCube2);
 	OF->GiveMeshRenderer(fallingCube2, cubeMesh);
@@ -97,8 +155,7 @@ bool MainScene::Start() {
 	OF->Get<BouncingObj*>(fallingCube3)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasGravity = true;
 	OF->Get<BouncingObj*>(fallingCube3)->GetComponent<RigidBody*>(pType::RIGID_BODY)->hasDrag = true;
 	OF->GiveAABBCollider(fallingCube3, 2.0f, 2.0f, 2.0f);
-
-
+	
 	//Falling spheres
 	Handle sphereObj = OF->CreateGameObject<BouncingObj>("sphere");
 	objects.push_back(sphereObj);
