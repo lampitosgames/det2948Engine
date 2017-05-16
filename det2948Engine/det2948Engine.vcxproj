@@ -139,6 +139,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="RotatingPlatform.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="pType.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="RotatingPlatform.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SphereCollider.h" />

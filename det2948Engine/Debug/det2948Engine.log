@@ -1,6 +1,5 @@
 ﻿  MainScene.cpp
 i:\classes\dsa1\det2948engine\det2948engine\objectfactory.h(88): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
-  i:\classes\dsa1\det2948engine\det2948engine\mainscene.cpp(29): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  i:\classes\dsa1\det2948engine\det2948engine\mainscene.cpp(31): note: see reference to function template instantiation 'Handle ObjectFactory::CreateGameObject<Camera>(std::string)' being compiled
   det2948Engine.vcxproj -> I:\Classes\DSA1\det2948Engine\Debug\det2948Engine.exe
   det2948Engine.vcxproj -> I:\Classes\DSA1\det2948Engine\Debug\det2948Engine.pdb (Partial PDB)
