@@ -106,7 +106,7 @@ bool Mesh::bufferModel(string filepath) {
 	//Create vertex buffer data
 	vector<Vertex> vertBuffData(this->vertCount);
 	//Get vertex buffer data from info read from the file
-	for (int i = 0; i < this->vertCount; i++) {
+	for (unsigned i = 0; i < this->vertCount; i++) {
 		vertBuffData[i] = { locs[  vertInds[i].locInd],
 							uvs[   vertInds[i].uvInd],
 							norms[ vertInds[i].normInd] };

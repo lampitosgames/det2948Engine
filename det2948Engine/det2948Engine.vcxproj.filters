@@ -224,9 +224,6 @@
     <ClInclude Include="OBBCollider.h">
       <Filter>Header Files\Components\Colliders</Filter>
     </ClInclude>
-    <ClInclude Include="MovableOOB.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\fPhong.glsl">

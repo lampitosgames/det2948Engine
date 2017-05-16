@@ -8,7 +8,7 @@
 #include "ObjectFactory.h"
 #include "MainScene.h"
 
-static class Engine {
+class Engine {
 public:
 	static Timer time;
 

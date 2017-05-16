@@ -16,7 +16,7 @@ void Scene::Update(float dt) {
 }
 
 void Scene::Activate() {
-	for (int i = 0; i < objects.size(); i++) {
+	for (unsigned i = 0; i < objects.size(); i++) {
 		Engine::OF.Get<GameObject*>(objects[i])->SetActive(true);
 	}
 }

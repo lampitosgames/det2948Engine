@@ -9,7 +9,7 @@ Camera::Camera() {
 }
 
 void Camera::Start() {
-	ballMesh = Engine::renderSys.CreateMesh("models/sphere.obj");
+	ballMesh = Engine::renderSys.CreateMesh("models/box.obj");
 	Handle colorShader = Engine::renderSys.CreateShader("shaders/vPhongColor.glsl", "shaders/fPhongColor.glsl");
 	ballMat = Engine::renderSys.CreateMaterial(colorShader, vec3(0.937254f, 0.137254f, 0.235294f));
 }
@@ -47,8 +47,8 @@ void Camera::HandleInput() {
 	glm::vec3* cr = &(transf->rotation);
 
 	//Rotation sensitivity
-	float hSens = 0.001; //Side to side
-	float vSens = 0.001;  //Up and down
+	float hSens = 0.001f; //Side to side
+	float vSens = 0.001f;  //Up and down
 	glm::vec2 mPos = Input::MouseDelta();
 	//Reference to the rotation matrix
 	(*cr).y -= hSens * mPos.x; //yaw
@@ -86,7 +86,7 @@ void Camera::ShootSphere() {
 	Engine::OF.GiveMaterial(bullet, ballMat);
 	Engine::OF.GiveRigidBody(bullet, 1.0f, 0.5f);
 	Engine::OF.GiveMeshRenderer(bullet, ballMesh);
-	Engine::OF.GiveSphereCollider(bullet, 1.0f);
+	Engine::OF.GiveAABBCollider(bullet, 2.0f, 2.0f, 2.0f);
 	BouncingObj* obj = Engine::OF.Get<BouncingObj*>(bullet);
 	Transform* trans = obj->GetComponent<Transform*>(pType::TRANSFORM);
 	RigidBody* rigid = obj->GetComponent<RigidBody*>(pType::RIGID_BODY);

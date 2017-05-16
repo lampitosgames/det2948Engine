@@ -74,7 +74,7 @@ bool Shader::compile(GLenum shaderType) {
 
 	//Get length
 	instream.seekg(0, std::ios::end); //go to the end of the file.  once we skim the whole file, we can figure out how large it is.
-	int length = instream.tellg(); //how long is the file?
+	int length = (int)instream.tellg(); //how long is the file?
 	instream.seekg(0, std::ios::beg); //go back to the beginning of the file so we can read the contents
 
 	//Read the entire file into a char aray

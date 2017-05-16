@@ -164,7 +164,6 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRender.h" />
-    <ClInclude Include="MovableOOB.h" />
     <ClInclude Include="OBBCollider.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Physics.h" />

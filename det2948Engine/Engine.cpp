@@ -29,7 +29,7 @@ bool Engine::Start() {
 	}
 
 	if (!Engine::OF.Start()) {
-		cout << "\Object Factory failled to start";
+		cout << "\nObject Factory failled to start";
 		return false;
 	}
 

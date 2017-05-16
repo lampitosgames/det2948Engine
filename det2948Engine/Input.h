@@ -4,7 +4,7 @@
 #include <GLFW\glfw3.h> // Of these matters
 #include <glm\glm.hpp>
 
-static class Input {
+class Input {
 public:
 	static bool Start();
 	static void Update(float dt);
